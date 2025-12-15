@@ -1,0 +1,23 @@
+.video-gallery {
+  margin-top: 15px;
+}
+
+.video-card {
+  margin-bottom: 15px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.video-card video {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* نفس style header زي الصور */
+.friends-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}

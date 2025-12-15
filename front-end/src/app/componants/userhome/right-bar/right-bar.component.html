@@ -1,0 +1,22 @@
+<div class="col-md-2 static">
+  <div class="suggestions" id="sticky-sidebar">
+    <h4 class="grey">Who to Follow</h4>
+
+    <div *ngFor="let user of suggestions" class="follow-user">
+      <img src="assets/images/users/user-11.jpg" alt="" class="profile-photo-sm pull-left" />
+      <div>
+        <h5>{{ user.username }}</h5>
+        <a *ngIf="!user.friendId" (click)="sendFriendRequest(user)" class="text-green" style="cursor:pointer;">
+          Add Friend
+        </a>
+        <a *ngIf="user.friendId" (click)="cancelFriendRequest(user)" class="text-red" style="cursor:pointer;">
+          Cancel Request
+        </a>
+      </div>
+    </div>
+
+    <div *ngIf="suggestions.length === 0" class="text-muted" style="margin-top: 10px;">
+      No suggestions available
+    </div>
+  </div>
+</div>

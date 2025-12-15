@@ -1,0 +1,17 @@
+.logout-link {
+  color: #fff !important;
+  font-weight: 600;
+  text-transform: capitalize;
+  transition: color 0.3s ease;
+}
+
+.logout-link:hover {
+  color: #27aae1 !important; /* نفس لون hover لباقي اللينكات */
+  text-decoration: none;
+}
+
+.logout-link i {
+  margin-right: 5px;
+  font-size: 16px;
+  vertical-align: middle;
+}

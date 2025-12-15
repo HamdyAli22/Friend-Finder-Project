@@ -1,0 +1,45 @@
+<div id="page-contents">
+  <div class="container">
+    <div class="row">
+
+      <app-left-bar></app-left-bar>
+
+      <div class="col-md-7">
+
+        <!-- Header -->
+        <div class="friends-header">
+          <h3>My Videos</h3>
+        </div>
+
+        <!-- Loading / Empty State -->
+        <div *ngIf="loading" class="text-muted">
+          Loading videos...
+        </div>
+
+        <div *ngIf="!loading && videos.length === 0" class="text-muted">
+          No videos found.
+        </div>
+
+        <!-- Video Gallery -->
+        <div class="video-gallery" *ngIf="videos.length > 0">
+          <div class="row">
+            <div class="col-md-6 col-sm-6" *ngFor="let vid of videos">
+              <div class="video-card">
+                <video
+                  [src]="'http://localhost:8081' + vid.mediaUrl"
+                  controls
+                  class="video-responsive">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <app-right-bar></app-right-bar>
+
+    </div>
+  </div>
+</div>

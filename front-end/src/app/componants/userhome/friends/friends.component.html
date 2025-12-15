@@ -1,0 +1,84 @@
+<div id="page-contents">
+  <div class="container">
+    <div class="row">
+
+      <app-left-bar></app-left-bar>
+      <div class="col-md-7">
+
+        <div class="friends-header">
+          <h3>Friends</h3>
+
+          <a
+            routerLink="/friend-requests"
+            class="friend-requests-link"
+          >
+            Friend Requests
+          </a>
+        </div>
+
+
+        <div *ngIf="friends.length === 0" class="text-muted">
+          No friends yet.
+        </div>
+
+        <!-- Friend List ================================================= -->
+        <div class="friend-list">
+          <div class="row">
+            <div class="col-md-6 col-sm-6" *ngFor="let friend of friends">
+              <div class="friend-card">
+                <img src="assets/images/covers/1.jpg" alt="profile-cover" class="img-responsive cover" />
+                <div class="card-info">
+                  <img
+                    [src]="friend.profileImage || 'assets/images/users/user-3.jpg'"
+                    alt="user"
+                    class="profile-photo-lg"
+                  />
+                  <div class="friend-info">
+                    <a href="#" class="pull-right text-green">My Friend</a>
+                    <h5>
+                      <a href="timeline.html" class="profile-link">{{ friend.username }}</a>
+                    </h5>
+                    <p>{{ friend.bio || '' }}</p>
+
+                    <div class="mt-2">
+
+                      <button
+                        *ngIf="friend.isFriend"
+                        class="btn btn-danger btn-xs"
+                        (click)="unfriend(friend)"
+                      >
+                        Unfriend
+                      </button>
+
+
+                      <button
+                        *ngIf="!friend.isFriend && !friend.requestSent"
+                        class="btn btn-success btn-xs"
+                        (click)="addFriend(friend)"
+                      >
+                        Add Friend
+                      </button>
+
+
+                      <span
+                        *ngIf="friend.requestSent"
+                        class="text-muted"
+                        style="font-size: 12px;">
+                     Request Sent
+                     </span>
+
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <app-right-bar></app-right-bar>
+    </div>
+  </div>
+</div>

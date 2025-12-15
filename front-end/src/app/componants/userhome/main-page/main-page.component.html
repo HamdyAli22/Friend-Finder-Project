@@ -1,0 +1,155 @@
+<div id="page-contents">
+  <div class="container">
+    <div class="row">
+
+      <app-left-bar></app-left-bar>
+
+      <div class="col-md-7">
+        <app-publish (postCreated)="addPostToTop($event)"></app-publish>
+
+        <!-- Dynamic Posts -->
+        <div *ngFor="let post of posts" class="post-content">
+          <!-- Delete Confirmation Modal -->
+          <div *ngIf="post.showDeleteConfirm" class="confirm-modal">
+            <div class="confirm-modal-content">
+              <p>Are you sure you want to delete this post?</p>
+              <button class="btn btn-danger" (click)="confirmDelete(post)">Yes</button>
+              <button class="btn btn-secondary" (click)="cancelDelete(post)">No</button>
+            </div>
+          </div>
+
+          <div class="post-container">
+            <img src="assets/images/users/user-1.jpg"
+                 alt="user"
+                 class="profile-photo-md pull-left"/>
+
+            <!-- Three dots for current user -->
+            <div class="post-options"  *ngIf="post.owner?.id === currentUserId">
+              <button class="dots-btn" id="dots-btn-{{post.id}}" (click)="toggleDropdown(post)">⋯</button>
+              <ul class="dropdown" id="dropdown-{{post.id}}" *ngIf="post.showDropdown">
+                <li (click)="editPost(post); $event.stopPropagation()">Edit</li>
+                <li (click)="deletePost(post); $event.stopPropagation()">Delete</li>
+              </ul>
+            </div>
+
+            <!-- Post Content -->
+            <div class="post-detail">
+              <div class="user-info d-flex justify-content-between align-items-center">
+                <div>
+                  <h5>
+                    <a class="profile-link">{{ post.owner?.username }}</a>
+                    <span class="following" *ngIf="post.owner?.following">following</span>
+                  </h5>
+                  <p class="text-muted">{{ post.createdDate | date:'medium' }}</p>
+                </div>
+              </div>
+
+              <div class="post-text">
+                <p>{{ post.content }}</p>
+              </div>
+
+              <img *ngIf="post.mediaType === 'IMAGE'"
+                   [src]="post.mediaUrl"
+                   alt="post-image"
+                   class="img-responsive post-image"/>
+
+              <video *ngIf="post.mediaType === 'VIDEO'" class="post-video" controls>
+                <source [src]="post.mediaUrl" type="video/mp4"/>
+              </video>
+            </div>
+
+
+            <div class="reaction">
+              <a class="btn text-green" (click)="likePost(post)">
+                <i class="icon ion-thumbsup"></i> {{ post.likesCount || 0 }}
+              </a>
+              <a class="btn text-red" (click)="dislikePost(post)">
+                <i class="fa fa-thumbs-down"></i> {{ post.dislikesCount || 0 }}
+              </a>
+            </div>
+
+
+
+            <div class="text-muted mb-2 comments-count" *ngIf="post.commentsCount > 0">
+              {{ post.commentsCount }} {{ post.commentsCount === 1 ? 'Comment' : 'Comments' }}
+            </div>
+
+
+            <div class="line-divider"></div>
+
+            <!-- Comments -->
+            <div class="post-comment" *ngFor="let c of post.comments; trackBy: trackByCommentId">
+              <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm"/>
+              <div class="comment-body">
+                  <span class="profile-link">{{ c.owner?.username }}</span>
+
+                <p *ngIf="!c.editing">{{ c.content }}</p>
+
+                <input *ngIf="c.editing"
+                       [(ngModel)]="c.editedContent"
+                       class="form-control"
+                       style="margin-top:5px;"
+                       (keyup.enter)="saveCommentEdit(c, post)" />
+              </div>
+
+              <div class="comment-options" *ngIf="c.owner?.id === currentUserId">
+                <button class="dots-btn"  *ngIf="!c.editing" id="comment-dots-btn-{{ c.id }}" (click)="toggleCommentDropdown(c, post)">⋯</button>
+
+                <ul class="dropdown" id="comment-dropdown-{{ c.id }}" *ngIf="c.showDropdown">
+                  <li (click)="startEditComment(c, post)">Edit</li>
+                  <li (click)="deleteComment(c, post)">Delete</li>
+                </ul>
+              </div>
+
+              <div *ngIf="c.editing" class="edit-actions" style="margin-left:40px; margin-top:5px;">
+                <button class="btn-save" (click)="saveCommentEdit(c, post)">&#10003;</button>
+                <span class="btn-cancel" (click)="cancelEditComment(c)">Cancel</span>
+              </div>
+
+            </div>
+
+            <div *ngIf="post.showMore && post.commentsCount > 3" class="text-center">
+              <button class="btn btn-link" (click)="loadMoreComments(post)">View more comments</button>
+            </div>
+
+            <div *ngIf="!post.showMore && post.commentsCount > 3 && post.comments.length === post.commentsCount" class="text-center">
+              <button class="btn btn-link" (click)="showLessComments(post)">View less comments</button>
+            </div>
+
+            <div *ngIf="post.commentsCount === 0" class="text-muted text-center">
+              No comments yet
+            </div>
+
+            <div class="line-divider"></div>
+
+            <!-- Add Comment -->
+            <div class="post-comment">
+              <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm"/>
+              <input type="text"
+                     class="form-control"
+                     [(ngModel)]="post.newComment"
+                     (keyup.enter)="addComment(post)"
+                     placeholder="Write a comment...">
+            </div>
+
+          </div>
+        </div>
+
+        <div *ngIf="loading" class="text-center">
+          <p>Loading more posts...</p>
+        </div>
+
+      </div>
+
+      <app-right-bar></app-right-bar>
+    </div>
+  </div>
+  <app-post-edit
+    *ngIf="showEditModal"
+    [post]="postBeingEdited"
+    (postUpdated)="handlePostUpdated($event)"
+    (closed)="handleModalClosed()">
+  </app-post-edit>
+
+</div>
+

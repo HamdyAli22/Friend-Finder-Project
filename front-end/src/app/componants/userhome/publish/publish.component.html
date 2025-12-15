@@ -1,0 +1,58 @@
+<!-- Post Create Box ================================================= -->
+<div class="create-post">
+  <div class="row">
+    <div class="col-md-7 col-sm-7">
+      <div class="form-group post-input">
+        <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-md" />
+        <textarea [(ngModel)]="content"
+                  cols="30" rows="1"
+                  class="form-control"
+                  placeholder="Write what you wish"></textarea>
+      </div>
+
+      <!-- 🔥 Preview Section -->
+      <div *ngIf="previewUrl" class="media-preview">
+        <div class="preview-container">
+          <span class="remove-btn" (click)="removeMedia(mediaType)">✖</span>
+
+          <img *ngIf="mediaType === 'IMAGE'" [src]="previewUrl" class="preview-img">
+          <video *ngIf="mediaType === 'VIDEO'" [src]="previewUrl" class="preview-video" controls></video>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="col-md-5 col-sm-5">ِ
+      <div class="tools">
+        <ul class="publishing-tools list-inline">
+          <li>
+            <label class="upload-btn" title="Upload Image">
+              <i class="ion-images icon-lg"></i>
+              <input type="file"
+                     accept="image/*"
+                     (change)="onFileSelected($event, 'IMAGE')" />
+            </label>
+          </li>
+
+          <li>
+            <label class="upload-btn" title="Upload Video">
+              <i class="ion-ios-videocam icon-lg"></i>
+              <input type="file"
+                     accept="video/*"
+                     (change)="onFileSelected($event, 'VIDEO')" />
+            </label>
+          </li>
+        </ul>
+
+        <button class="btn btn-primary pull-right"
+                (click)="publish()"
+                [disabled]="uploading">
+          {{ uploading ? 'Uploading…' : 'Publish' }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Post Create Box End -->

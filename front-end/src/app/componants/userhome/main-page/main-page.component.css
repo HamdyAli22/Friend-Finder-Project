@@ -1,0 +1,208 @@
+.post-container {
+  position: relative; /* يبقى parent للـ dropdown */
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+.post-options {
+  position: absolute; /* لازم عشان يبقى فوق على اليمين */
+  top: 10px;
+  right: 10px;
+  display: inline-block;
+  z-index: 1000; /* عشان يكون فوق كل حاجة */
+}
+
+.dots-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dots-btn:hover {
+  color: #555;
+}
+
+.dropdown {
+  position: absolute;
+  top: 35px; /* تحت الزر مباشرة */
+  right: 0;
+  background: #f1f8ff; /* أزرق فاتح خفيف */
+  border: 1px solid #c3dafe; /* حدود بلون أزرق فاتح */
+  border-radius: 8px; /* حواف دائرية لطيفة */
+  list-style: none;
+  padding: 5px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* ظل خفيف */
+  min-width: 120px; /* عرض مناسب */
+  z-index: 2000;
+  transition: all 0.2s ease;
+}
+
+.dropdown li {
+  padding: 10px 15px; /* padding أكبر */
+  cursor: pointer;
+  font-size: 14px;
+  color: #0d3b66; /* نص داكن */
+  transition: background 0.2s, transform 0.1s;
+}
+
+.dropdown li:hover {
+  background-color: #dbefff; /* لون أزرق فاتح عند hover */
+  transform: translateX(2px); /* حركة صغيرة لطيفة */
+}
+
+/* Likes & Dislikes تحت المحتوى */
+.reaction {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+  clear: both;
+}
+
+.confirm-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4); /* خلفية شفافة للشاشة كاملة */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+.confirm-modal-content {
+  background: #e3f2fd; /* أزرق فاتح لطيف */
+  color: #0d3b66;      /* نص داكن */
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.confirm-modal-content p {
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.confirm-modal-content button {
+  width: 100px;          /* نفس عرض الزرين */
+  padding: 8px 0;
+  margin: 0 10px;
+  border-radius: 5px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.confirm-modal-content button:hover {
+  transform: scale(1.05);
+}
+
+.confirm-modal-content .btn-danger {
+  background-color: #d32f2f;
+  color: #fff;
+}
+
+.confirm-modal-content .btn-secondary {
+  background-color: #757575;
+  color: #fff;
+}
+
+.comment-body {
+  flex: 1;
+}
+
+.post-comment {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 15px; /* مساحة بين كل تعليق */
+}
+
+.edit-actions {
+  display: flex;
+  align-items: center;
+  margin-left: 45px; /* تحت صورة التعليق */
+  margin-top: 5px;
+  gap: 10px;
+}
+
+.btn-save {
+  background-color: #4CAF50; /* أخضر */
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  line-height: 28px;
+  transition: all 0.2s ease;
+}
+
+.btn-save:hover {
+  background-color: #45a049;
+}
+
+.btn-cancel {
+  color: #007bff; /* أزرق */
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.btn-cancel:hover {
+  text-decoration: underline;
+}
+
+.comment-options {
+  position: relative;
+  margin-left: 10px;
+}
+
+.comment-options .dots-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.comment-options .dropdown {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background: #f1f8ff;
+  border: 1px solid #c3dafe;
+  border-radius: 8px;
+  list-style: none;
+  padding: 5px 0;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 3000;
+}
+
+.comment-options .dropdown li {
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #0d3b66;
+}
+
+.comment-options .dropdown li:hover {
+  background: #dbefff;
+}
+
+.post-container .comments-count {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0d3b66;
+  margin-bottom: 5px;
+}

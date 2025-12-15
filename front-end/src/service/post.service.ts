@@ -1,0 +1,36 @@
+import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {Post} from '../model/post';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PostService {
+
+  private baseUrl = 'http://localhost:8081/posts/';
+
+  constructor(private http: HttpClient) { }
+
+  getFeed(pageNo: number, pageSize: number): Observable<any> {
+    return this.http.get<Post[]>(this.baseUrl + 'feed?page=' + pageNo + '&size=' + pageSize)
+      .pipe(map(response => response));
+  }
+
+  publishPost(payload: any): Observable<any> {
+    return this.http.post<Post[]>(this.baseUrl + 'create-post', payload)
+      .pipe(map(response => response));
+  }
+
+  updatePost(payload: any): Observable<any> {
+    return this.http.put<Post[]>(this.baseUrl + 'update-post', payload)
+      .pipe(map(response => response));
+  }
+
+  deletePost(postId: number): Observable<void> {
+    return this.http.delete<void>(this.baseUrl + 'delete-post?id=' + postId);
+  }
+
+
+}

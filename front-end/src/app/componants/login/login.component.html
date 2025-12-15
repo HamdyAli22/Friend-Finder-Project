@@ -1,0 +1,95 @@
+<section
+  id="banner"
+  class="d-flex align-items-center justify-content-center"
+  style="min-height: 100vh;"
+>
+  <div class="container">
+    <div class="sign-up-form text-center">
+      <!-- Logo -->
+      <a href="/" class="logo mb-4 d-block">
+        <img src="assets/images/logo.png" alt="Friend Finder" style="max-width: 180px;" />
+      </a>
+
+      <!-- Card -->
+      <div class="card shadow-lg border-0 mx-auto" style="max-width: 420px;">
+        <div class="card-body p-4">
+          <h4 class="text-center mb-4 text-primary">Login</h4>
+
+          <!-- ✅ Notification Messages -->
+          <div *ngIf="messageEn || messageAr" class="alert alert-info custom-alert mb-4">
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="clearMessage()"
+            ></button>
+            <div>
+              <strong *ngIf="messageEn">{{ messageEn }}</strong><br />
+              <span *ngIf="messageAr" class="text-muted small">{{ messageAr }}</span>
+            </div>
+          </div>
+
+          <!-- Login Form -->
+          <form (ngSubmit)="login(email.value, password.value)">
+            <!-- Email -->
+            <div class="mb-3 field-wrapper">
+              <label for="email" class="form-label">Email</label>
+              <div class="input-container">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Enter your email"
+                  #email
+                  required
+                />
+                <i class="fa fa-envelope field-icon static-icon"></i>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3 field-wrapper">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-container">
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  class="form-control"
+                  id="password"
+                  placeholder="Enter your password"
+                  #password
+                  required
+                />
+                <i
+                  class="fa field-icon clickable"
+                  [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                  (click)="togglePasswordVisibility()"
+                ></i>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <a
+                [routerLink]="['/change-password']"
+                [queryParams]="{ mode: 'forgot' }"
+                class="text-primary small"
+              >
+                Forgot password?
+              </a>
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit">Login</button>
+          </form>
+
+          <div class="text-center mt-4">
+            <small>
+              Don’t have an account?
+              <a routerLink="/sign-up" class="text-primary">Sign up</a>
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <img class="form-shadow mt-4" src="assets/images/bottom-shadow.png" alt="" />
+    </div>
+  </div>
+</section>

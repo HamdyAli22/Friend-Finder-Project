@@ -1,0 +1,17 @@
+.friends-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.friends-header h3 {
+  margin: 0;
+}
+
+.friend-requests-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #337ab7;
+  cursor: pointer;
+}

@@ -1,0 +1,123 @@
+<div id="page-contents">
+  <div class="container">
+    <div class="row">
+
+      <app-left-bar></app-left-bar>
+
+      <div class="col-md-7">
+
+        <!-- Header -->
+        <div class="friends-header">
+          <h3>Friend Requests</h3>
+
+          <div class="header-links">
+            <a
+              class="friend-requests-link"
+              (click)="openSentRequests()">
+              View sent requests
+            </a>
+
+            <span class="separator">•</span>
+
+            <a
+              routerLink="/friends"
+              class="friend-requests-link">
+              Friends
+            </a>
+          </div>
+        </div>
+
+        <!-- Received Requests -->
+        <div *ngIf="friendRequests.length === 0" class="text-muted">
+          No pending friend requests.
+        </div>
+
+        <div class="friend-list">
+          <div class="row">
+
+            <div class="col-md-6 col-sm-6" *ngFor="let request of friendRequests">
+              <div class="friend-card">
+
+                <img
+                  src="assets/images/covers/1.jpg"
+                  alt="profile-cover"
+                  class="img-responsive cover"
+                />
+
+                <div class="card-info">
+                  <img
+                    src="assets/images/users/user-3.jpg"
+                    alt="user"
+                    class="profile-photo-lg"
+                  />
+
+                  <div class="friend-info">
+                    <div class="pull-right">
+                      <button
+                        class="btn btn-success btn-xs"
+                        style="margin-right: 5px;"
+                        (click)="acceptRequest(request)">
+                        Accept
+                      </button>
+
+                      <button
+                        class="btn btn-danger btn-xs"
+                        (click)="rejectRequest(request)">
+                        Reject
+                      </button>
+                    </div>
+
+                    <h5>
+                      <a href="#" class="profile-link">
+                        {{ request.username }}
+                      </a>
+                    </h5>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <app-right-bar></app-right-bar>
+    </div>
+  </div>
+</div>
+
+<!-- ================= Sent Requests Popup ================= -->
+<div class="modal-backdrop-custom" *ngIf="showSentPopup">
+  <div class="sent-requests-modal">
+
+    <div class="modal-header">
+      <h4>Sent Friend Requests</h4>
+      <span class="close-btn" (click)="closeSentRequests()">×</span>
+    </div>
+
+    <div *ngIf="sentRequests.length === 0" class="text-muted">
+      No sent requests.
+    </div>
+
+    <div
+      class="sent-request-item"
+      *ngFor="let req of sentRequests">
+
+      <div class="request-user-info">
+        <img
+          [src]="req.profileImage || 'assets/images/users/user-3.jpg'"
+          alt="user"
+          class="profile-photo-sm">
+        <span>{{ req.username }}</span>
+      </div>
+
+      <button
+        class="btn btn-danger btn-xs"
+        (click)="cancelRequest(req)">
+        Cancel
+      </button>
+    </div>
+
+  </div>
+</div>

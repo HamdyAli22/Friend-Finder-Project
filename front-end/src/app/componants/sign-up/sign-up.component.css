@@ -1,0 +1,186 @@
+/* ============ Layout ============ */
+#banner {
+  background: url('/assets/images/bg/bg-1.jpg') center/cover no-repeat;
+}
+
+.card {
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* ============ Labels & Inputs ============ */
+.form-label {
+  font-weight: 600;
+  color: #1d3557;
+  font-size: 15px;
+  text-align: left;
+  display: block;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.field-wrapper {
+  text-align: left;
+}
+
+.input-container {
+  position: relative;
+}
+
+.form-control {
+  width: 100%;
+  border-radius: 10px;
+  padding: 12px 44px 12px 14px;
+  border: 1px solid #ced4da;
+  font-size: 15px;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+}
+
+/* ============ Field Icons ============ */
+.field-icon {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  color: #6c757d;
+  font-size: 18px;
+}
+
+.field-icon.clickable {
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.field-icon.clickable:hover {
+  color: #007bff;
+  transform: translateY(-50%) scale(1.15);
+}
+
+.static-icon {
+  color: #adb5bd;
+  pointer-events: none;
+}
+
+/* ============ Buttons ============ */
+.btn-primary {
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 0; /* ⬆️ زودناها شوية */
+  font-size: 17px; /* ⬆️ كبرنا الخط */
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #0056b3, #00408d);
+  transform: translateY(-1px);
+}
+
+/* ============ Links & Text ============ */
+.text-primary {
+  color: #004aad !important;
+  font-weight: 600;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.text-primary:hover {
+  color: #007bff !important;
+  text-decoration: underline;
+}
+
+/* Forgot password link */
+a.text-primary.small {
+  font-size: 15px; /* ⬆️ كان صغير */
+  font-weight: 500;
+}
+
+/* Sign up line */
+small {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 15.5px; /* ⬆️ كبرنا الخط */
+  color: #333;
+}
+
+small a.text-primary {
+  font-size: 16px; /* ⬆️ كبرنا كلمة Sign up كمان */
+  letter-spacing: 0.2px;
+}
+
+/* ============ Notification ============ */
+.custom-alert {
+  position: relative;
+  border-radius: 12px;
+  background: #e9f5ff;
+  border: 1px solid #b3daff;
+  color: #0c5460;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: fadeInDown 0.4s ease;
+  padding: 16px 20px;
+  text-align: left;
+}
+
+/* Close button */
+.custom-alert .btn-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: rgba(0, 123, 255, 0.08);
+  border-radius: 50%;
+  opacity: 0.85;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.custom-alert .btn-close:hover {
+  background: rgba(0, 123, 255, 0.18);
+  transform: scale(1.1);
+}
+
+.custom-alert .btn-close::before {
+  content: '×';
+  font-size: 16px;
+  color: #007bff;
+  font-weight: bold;
+  line-height: 1;
+  position: relative;
+  top: -1px;
+}
+
+.custom-alert strong {
+  font-size: 14px;
+  color: #004085;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 768px) {
+  .card {
+    margin: 20px;
+  }
+}

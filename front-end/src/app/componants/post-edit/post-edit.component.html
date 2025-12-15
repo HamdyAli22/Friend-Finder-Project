@@ -1,0 +1,50 @@
+<!-- Edit Post Modal -->
+<div class="modal-backdrop" (click)="close()"></div>
+
+<div class="modal-box" (click)="$event.stopPropagation()">
+  <h4>Edit Post</h4>
+
+  <div class="create-post">
+    <!-- Textarea -->
+    <div class="form-group post-input">
+      <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-md" />
+      <textarea [(ngModel)]="content"
+                cols="30" rows="3"
+                class="form-control"
+                placeholder="Write what you wish"></textarea>
+    </div>
+
+    <!-- Preview Section -->
+    <div *ngIf="previewUrl; else addMedia" class="media-preview">
+      <div class="preview-container">
+        <span class="remove-btn" (click)="removeMedia(mediaType)">✖</span>
+
+        <img *ngIf="mediaType === 'IMAGE'" [src]="previewUrl" class="preview-img">
+        <video *ngIf="mediaType === 'VIDEO'" [src]="previewUrl" class="preview-video" controls></video>
+      </div>
+    </div>
+
+    <!-- Upload Icons -->
+    <ng-template #addMedia>
+      <div class="upload-icons text-center mt-2">
+        <label class="upload-btn" title="Upload Image">
+          <i class="ion-images icon-lg"></i>
+          <input type="file" accept="image/*" (change)="onFileSelected($event, 'IMAGE')" />
+        </label>
+
+        <label class="upload-btn ml-3" title="Upload Video">
+          <i class="ion-ios-videocam icon-lg"></i>
+          <input type="file" accept="video/*" (change)="onFileSelected($event, 'VIDEO')" />
+        </label>
+      </div>
+    </ng-template>
+
+    <!-- Buttons -->
+    <div class="tools text-center mt-3">
+      <button class="btn btn-secondary btn-edit" (click)="close()">Cancel</button>
+      <button class="btn btn-primary btn-edit" (click)="updatePost()" [disabled]="uploading">
+        {{ uploading ? 'Uploading…' : 'Update' }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -21,10 +21,11 @@ public class MediaController {
         this.mediaService = mediaService;
     }
 
-    @GetMapping("/my-media")
-    public ResponseEntity<List<MediaVM>> getMyMedia(
+    @GetMapping("/user-media")
+    public ResponseEntity<List<MediaVM>> getUserMedia(
+            @RequestParam(required = false) Long userId,
             @RequestParam(required = false) MediaType type
     ) {
-        return ResponseEntity.ok(mediaService.getMyMedia(type));
+        return ResponseEntity.ok(mediaService.getUserMedia(userId, type));
     }
 }

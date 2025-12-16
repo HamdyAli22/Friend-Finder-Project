@@ -22,16 +22,22 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public List<MediaVM> getMyMedia(MediaType type) {
+    public List<MediaVM> getUserMedia(Long userId,MediaType type) {
 
-        Long currentUserId = authService.getCurrentUserId();
+        Long targetUserId;
+
+        if (userId == null) {
+            targetUserId = authService.getCurrentUserId();
+        } else {
+            targetUserId = userId;
+        }
 
         List<Post> posts;
 
         if (type != null) {
-            posts = postRepo.findByOwnerIdAndMediaType(currentUserId, type);
+            posts = postRepo.findByOwnerIdAndMediaType(targetUserId, type);
         } else {
-            posts = postRepo.findByOwnerId(currentUserId);
+            posts = postRepo.findByOwnerId(targetUserId);
         }
 
         return posts.stream().map(p -> new MediaVM(

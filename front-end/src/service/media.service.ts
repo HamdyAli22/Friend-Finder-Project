@@ -13,17 +13,22 @@ export class MediaService {
 
   constructor(private http: HttpClient) { }
 
-  getMyMedia(type?: 'IMAGE' | 'VIDEO'): Observable<UserMedia[]> {
+  getUserMedia(
+    type?: 'IMAGE' | 'VIDEO',
+    userId?: number
+  ): Observable<UserMedia[]> {
 
-    let url = this.baseUrl + 'my-media';
+    const params: any = {};
 
     if (type) {
-      url += '?type=' + type;
+      params.type = type;
     }
 
-    return this.http
-      .get<UserMedia[]>(url)
-      .pipe(map(response => response));
+    if (userId) {
+      params.userId = userId;
+    }
+
+    return this.http.get<UserMedia[]>(this.baseUrl + 'user-media', { params });
   }
 
 }

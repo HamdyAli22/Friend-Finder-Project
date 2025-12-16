@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface MediaService {
-    List<MediaVM> getMyMedia(MediaType type);
+    List<MediaVM> getUserMedia(Long userId, MediaType type);
 }

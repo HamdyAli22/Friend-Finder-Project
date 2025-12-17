@@ -1,147 +1,146 @@
 <div class="container">
   <div class="timeline">
-      <app-time-line-profile></app-time-line-profile>
-      <div id="page-contents">
-        <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-7">
+    <app-time-line-profile></app-time-line-profile>
 
-              <app-publish></app-publish>
+    <div id="page-contents">
+      <div class="row">
 
-              <!-- Post Content
-              ================================================= -->
-              <div class="post-content">
+        <div class="col-md-3 timeline-left"></div>
 
-                <!--Post Date-->
-                <div class="post-date hidden-xs hidden-sm">
-                  <h5>Sarah</h5>
-                  <p class="text-grey">Sometimes ago</p>
-                </div><!--Post Date End-->
+        <div class="col-md-7">
+          <app-publish (postCreated)="addPostToTop($event)"></app-publish>
 
-                <img src="assets/images/post-images/12.jpg" alt="post-image" class="img-responsive post-image">
-                <div class="post-container">
-                  <img src="assets/images/users/user-1.jpg" alt="user" class="profile-photo-md pull-left">
-                  <div class="post-detail">
-                    <div class="user-info">
-                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
-                      <p class="text-muted">Published a photo about 15 mins ago</p>
-                    </div>
-                    <div class="reaction">
-                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 13</a>
-                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                    </div>
-                    <div class="line-divider"></div>
-                    <div class="post-text">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                    </div>
-                    <div class="line-divider"></div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-11.jpg" alt="" class="profile-photo-sm">
-                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-4.jpg" alt="" class="profile-photo-sm">
-                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm">
-                      <input type="text" class="form-control" placeholder="Post a comment">
-                    </div>
-                  </div>
-                </div>
+          <!-- Dynamic Posts -->
+          <div *ngFor="let post of posts" class="post-content">
+
+            <div class="post-date hidden-xs hidden-sm">
+              <h5>{{ post.owner?.username }}</h5>
+              <p class="text-grey">{{ post.createdDate | timeAgo }}</p>
+            </div><!--Post Date End-->
+
+            <!-- Delete Confirmation Modal -->
+            <div *ngIf="post.showDeleteConfirm" class="confirm-modal">
+              <div class="confirm-modal-content">
+                <p>Are you sure you want to delete this post?</p>
+                <button class="btn btn-danger" (click)="confirmDelete(post)">Yes</button>
+                <button class="btn btn-secondary" (click)="cancelDelete(post)">No</button>
+              </div>
+            </div>
+
+            <div class="post-container">
+
+              <!-- Three dots for current user -->
+              <div class="post-options"  *ngIf="post.owner?.id === currentUserId">
+                <button class="dots-btn" id="dots-btn-{{post.id}}" (click)="toggleDropdown(post)">⋯</button>
+                <ul class="dropdown" id="dropdown-{{post.id}}" *ngIf="post.showDropdown">
+                  <li (click)="editPost(post); $event.stopPropagation()">Edit</li>
+                  <li (click)="deletePost(post); $event.stopPropagation()">Delete</li>
+                </ul>
               </div>
 
-              <!-- Post Content
-              ================================================= -->
-              <div class="post-content">
+              <!-- Post Content -->
+              <div class="post-detail">
 
-                <!--Post Date-->
-                <div class="post-date hidden-xs hidden-sm">
-                  <h5>Sarah</h5>
-                  <p class="text-grey">10/22/2016</p>
-                </div><!--Post Date End-->
 
-                <img src="assets/images/post-images/13.jpg" alt="post-image" class="img-responsive post-image">
-                <div class="post-container">
-                  <img src="assets/images/users/user-1.jpg" alt="user" class="profile-photo-md pull-left">
-                  <div class="post-detail">
-                    <div class="user-info">
-                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
-                      <p class="text-muted">Yesterday</p>
-                    </div>
-                    <div class="reaction">
-                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 49</a>
-                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                    </div>
-                    <div class="line-divider"></div>
-                    <div class="post-text">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                    </div>
-                    <div class="line-divider"></div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-11.jpg" alt="" class="profile-photo-sm">
-                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-4.jpg" alt="" class="profile-photo-sm">
-                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm">
-                      <input type="text" class="form-control" placeholder="Post a comment">
-                    </div>
-                  </div>
+                <div class="post-text">
+                  <p>{{ post.content }}</p>
                 </div>
+
+                <img *ngIf="post.mediaType === 'IMAGE'"
+                     [src]="post.mediaUrl"
+                     alt="post-image"
+                     class="img-responsive post-image"/>
+
+                <video *ngIf="post.mediaType === 'VIDEO'" class="post-video" controls>
+                  <source [src]="post.mediaUrl" type="video/mp4"/>
+                </video>
               </div>
 
-              <!-- Post Content
-              ================================================= -->
-              <div class="post-content">
 
-                <!--Post Date-->
-                <div class="post-date hidden-xs hidden-sm">
-                  <h5>Sarah</h5>
-                  <p class="text-grey">10/21/2016</p>
-                </div><!--Post Date End-->
+              <div class="reaction">
+                <a class="btn text-green" (click)="likePost(post)">
+                  <i class="icon ion-thumbsup"></i> {{ post.likesCount || 0 }}
+                </a>
+                <a class="btn text-red" (click)="dislikePost(post)">
+                  <i class="fa fa-thumbs-down"></i> {{ post.dislikesCount || 0 }}
+                </a>
+              </div>
 
-                <div class="post-container">
-                  <img src="assets/images/users/user-1.jpg" alt="user" class="profile-photo-md pull-left">
-                  <div class="post-detail">
-                    <div class="user-info">
-                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
-                      <p class="text-muted">2 days ago</p>
-                    </div>
-                    <div class="reaction">
-                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 49</a>
-                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                    </div>
-                    <div class="line-divider"></div>
-                    <div class="post-text">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                    </div>
-                    <div class="line-divider"></div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-11.jpg" alt="" class="profile-photo-sm">
-                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-4.jpg" alt="" class="profile-photo-sm">
-                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm">
-                      <input type="text" class="form-control" placeholder="Post a comment">
-                    </div>
-                  </div>
+
+
+              <div class="text-muted mb-2 comments-count" *ngIf="post.commentsCount > 0">
+                {{ post.commentsCount }} {{ post.commentsCount === 1 ? 'Comment' : 'Comments' }}
+              </div>
+
+
+              <div class="line-divider"></div>
+
+              <!-- Comments -->
+              <div class="post-comment" *ngFor="let c of post.comments; trackBy: trackByCommentId">
+                <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm"/>
+                <div class="comment-body">
+                  <span class="profile-link">{{ c.owner?.username }}</span>
+
+                  <p *ngIf="!c.editing">{{ c.content }}</p>
+
+                  <input *ngIf="c.editing"
+                         [(ngModel)]="c.editedContent"
+                         class="form-control"
+                         style="margin-top:5px;"
+                         (keyup.enter)="saveCommentEdit(c, post)" />
                 </div>
+
+                <div class="comment-options" *ngIf="c.owner?.id === currentUserId">
+                  <button class="dots-btn"  *ngIf="!c.editing" id="comment-dots-btn-{{ c.id }}" (click)="toggleCommentDropdown(c, post)">⋯</button>
+
+                  <ul class="dropdown" id="comment-dropdown-{{ c.id }}" *ngIf="c.showDropdown">
+                    <li (click)="startEditComment(c, post)">Edit</li>
+                    <li (click)="deleteComment(c, post)">Delete</li>
+                  </ul>
+                </div>
+
+                <div *ngIf="c.editing" class="edit-actions" style="margin-left:40px; margin-top:5px;">
+                  <button class="btn-save" (click)="saveCommentEdit(c, post)">&#10003;</button>
+                  <span class="btn-cancel" (click)="cancelEditComment(c)">Cancel</span>
+                </div>
+
+              </div>
+
+              <div *ngIf="post.showMore && post.commentsCount > 3" class="text-center">
+                <button class="btn btn-link" (click)="loadMoreComments(post)">View more comments</button>
+              </div>
+
+              <div *ngIf="!post.showMore && post.commentsCount > 3 && post.comments.length === post.commentsCount" class="text-center">
+                <button class="btn btn-link" (click)="showLessComments(post)">View less comments</button>
+              </div>
+
+              <div *ngIf="post.commentsCount === 0" class="text-muted text-center">
+                No comments yet
+              </div>
+
+              <div class="line-divider"></div>
+
+              <!-- Add Comment -->
+              <div class="post-comment">
+                <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm"/>
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="post.newComment"
+                       (keyup.enter)="addComment(post)"
+                       placeholder="Write a comment...">
+              </div>
+
             </div>
           </div>
 
+          <div *ngIf="loading" class="text-center">
+            <p>Loading more posts...</p>
+          </div>
 
-
-          <app-time-line-detailes></app-time-line-detailes>
         </div>
-      </div>
 
+        <app-time-line-detailes></app-time-line-detailes>
+      </div>
     </div>
+  </div>
 </div>

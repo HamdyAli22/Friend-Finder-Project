@@ -32,5 +32,9 @@ export class PostService {
     return this.http.delete<void>(this.baseUrl + 'delete-post?id=' + postId);
   }
 
+  getMyPosts(pageNo: number, pageSize: number): Observable<any> {
+    return this.http.get<Post[]>(this.baseUrl + 'my-posts?page=' + pageNo + '&size=' + pageSize)
+      .pipe(map(response => response));
+  }
 
 }

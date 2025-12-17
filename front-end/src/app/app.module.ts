@@ -31,6 +31,7 @@ import { PostEditComponent } from './componants/post-edit/post-edit.component';
 import { FriendRequestsComponent } from './componants/userhome/friends/friend-requests/friend-requests.component';
 import { ImagesComponent } from './componants/userhome/images/images.component';
 import { VideosComponent } from './componants/userhome/videos/videos.component';
+import {SharedModule} from '../model/shared-module';
 
 
 
@@ -84,7 +85,8 @@ const routes: Routes = [
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     { provide: APP_BASE_HREF, useValue: '/' }],

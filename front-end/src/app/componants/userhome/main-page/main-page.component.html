@@ -40,7 +40,7 @@
                     <a class="profile-link">{{ post.owner?.username }}</a>
                     <span class="following" *ngIf="post.owner?.following">following</span>
                   </h5>
-                  <p class="text-muted">{{ post.createdDate | date:'medium' }}</p>
+                  <p class="text-muted">{{ post.createdDate | timeAgo }}</p>
                 </div>
               </div>
 

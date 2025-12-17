@@ -106,7 +106,7 @@ export class PublishComponent implements OnInit {
     ) as HTMLInputElement;
 
     if (fileInput) { fileInput.value = ''; }
-  };
+  }
 
 
 }

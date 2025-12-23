@@ -18,8 +18,8 @@ public interface PostRepo extends JpaRepository<Post,Long> {
     // For delete check ownership quickly
     void deleteByIdAndOwnerId(Long postId, Long ownerId);
 
-    List<Post> findByOwnerIdAndMediaType(Long ownerId, MediaType mediaType);
+    List<Post> findByOwnerIdAndMediaTypeAndDeletedFalse(Long ownerId, MediaType mediaType);
 
-    List<Post> findByOwnerId(Long ownerId);
+    List<Post> findByOwnerIdAndDeletedFalse(Long ownerId);
 
 }

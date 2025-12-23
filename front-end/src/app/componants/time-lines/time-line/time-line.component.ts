@@ -4,6 +4,7 @@ import {PostService} from '../../../../service/post.service';
 import {MessageHandlerService} from '../../../../service/message-handler.service';
 import {CommentService} from '../../../../service/comment.service';
 import {ReactionService} from '../../../../service/reaction.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-time-line',
@@ -20,6 +21,7 @@ export class TimeLineComponent implements OnInit {
   private serverBase = 'http://localhost:8081';
 
   currentUserId = Number(localStorage.getItem('userId') || 0);
+  userId: number;
 
   showEditModal = false;
   postBeingEdited?: Post;
@@ -27,10 +29,23 @@ export class TimeLineComponent implements OnInit {
   constructor(private postService: PostService,
               private messageService: MessageHandlerService,
               private commentService: CommentService,
-              private reactionService: ReactionService) { }
+              private reactionService: ReactionService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadPosts();
+    this.route.queryParams.subscribe(params => {
+      const id = params.userId;
+      console.log('params', id);
+      this.userId = id
+        ? Number(id)
+        : this.currentUserId;
+
+      this.posts = [];
+      this.pageNo = 1;
+      this.total = 0;
+
+      this.loadPosts();
+    });
   }
 
   get messageEn(): string {
@@ -103,7 +118,7 @@ export class TimeLineComponent implements OnInit {
 
     this.loading = true;
 
-    this.postService.getFeed(this.pageNo, this.pageSize).subscribe(
+    this.postService.getUserPosts(this.pageNo, this.pageSize , this.userId).subscribe(
       (response: any) => {
         this.posts = [
           ...this.posts,

@@ -1,0 +1,16 @@
+/* styles.css أو time-line-profile.component.css */
+.btn-cancel-request {
+  font-size: 12px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-cancel-request:hover {
+  background-color: #ff4d4d;
+  color: #fff;
+}

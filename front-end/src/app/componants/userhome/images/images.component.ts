@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {UserMedia} from '../../../../model/user-media';
 import {MediaService} from '../../../../service/media.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-images',
@@ -14,10 +16,20 @@ export class ImagesComponent implements OnInit {
   loading = false;
   userId?: number;
 
+  showBar = true;
+
+  selectedImage?: UserMedia;
+
   constructor(private mediaService: MediaService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
+
+    if (this.router.url.includes('/timeline')) {
+      this.showBar = false;
+    }
+
     this.route.queryParams.subscribe(params => {
       this.userId = params.userId;
       this.loadImages();
@@ -36,6 +48,11 @@ export class ImagesComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  openPreview(img: UserMedia): void {
+    this.selectedImage = img;
+    $('#imagePreviewModal').modal('show');
   }
 
 }

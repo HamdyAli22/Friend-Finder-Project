@@ -5,7 +5,17 @@
     <div *ngFor="let user of suggestions" class="follow-user">
       <img src="assets/images/users/user-11.jpg" alt="" class="profile-photo-sm pull-left" />
       <div>
-        <h5>{{ user.username }}</h5>
+
+        <h5>
+          <a
+            [routerLink]="['/timeline']"
+            [queryParams]="{ userId: user.id }"
+            class="profile-link"
+          >
+            {{ user.username }}
+          </a>
+        </h5>
+
         <a *ngIf="!user.friendId" (click)="sendFriendRequest(user)" class="text-green" style="cursor:pointer;">
           Add Friend
         </a>

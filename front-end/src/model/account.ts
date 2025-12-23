@@ -7,5 +7,6 @@ export class Account {
   email: string;
   enabled: boolean;
   roles: Role[];
-  accountDetails: AccountDetails;
+  accountDetails?: AccountDetails;
+  friendsCount: number;
 }

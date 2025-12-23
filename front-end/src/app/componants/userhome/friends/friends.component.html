@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row">
 
-      <app-left-bar></app-left-bar>
+      <app-left-bar *ngIf="showBar"></app-left-bar>
       <div class="col-md-7">
 
         <div class="friends-header">
           <h3>Friends</h3>
 
-          <a
+          <a *ngIf="showBar"
             routerLink="/friend-requests"
             class="friend-requests-link"
           >
@@ -36,7 +36,15 @@
                   <div class="friend-info">
                     <a href="#" class="pull-right text-green">My Friend</a>
                     <h5>
-                      <a href="timeline.html" class="profile-link">{{ friend.username }}</a>
+
+                      <a
+                        [routerLink]="['/timeline']"
+                        [queryParams]="{ userId: friend.id }"
+                        class="profile-link"
+                      >
+                        {{ friend.username }}
+                      </a>
+
                     </h5>
                     <p>{{ friend.bio || '' }}</p>
 
@@ -78,7 +86,7 @@
         </div>
 
       </div>
-      <app-right-bar></app-right-bar>
+      <app-right-bar *ngIf="showBar"></app-right-bar>
     </div>
   </div>
 </div>

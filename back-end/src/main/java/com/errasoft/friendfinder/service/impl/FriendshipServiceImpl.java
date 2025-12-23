@@ -114,6 +114,20 @@ public class FriendshipServiceImpl implements FriendshipService {
         return getFriendResponseVMS(currentId, friends);
     }
 
+    @Override
+    public List<FriendResponseVM> getUserFriends(Long userId) {
+
+         accountRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("account.not.found"));
+
+        List<Long> friendIds = friendshipRepo.findAcceptedFriendIds(userId);
+
+        List<Account> friends = accountRepo.findByIdInAndEnabledTrue(friendIds);
+
+        return getFriendResponseVMS(userId, friends);
+
+    }
+
     private List<FriendResponseVM> getFriendResponseVMS(Long currentId, List<Account> friends) {
         return friends.stream()
                 .map(a -> {

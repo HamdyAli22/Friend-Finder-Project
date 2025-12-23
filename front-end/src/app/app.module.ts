@@ -32,6 +32,7 @@ import { FriendRequestsComponent } from './componants/userhome/friends/friend-re
 import { ImagesComponent } from './componants/userhome/images/images.component';
 import { VideosComponent } from './componants/userhome/videos/videos.component';
 import {SharedModule} from '../model/shared-module';
+import { TimeVideosComponent } from './componants/time-lines/time-videos/time-videos.component';
 
 
 
@@ -43,9 +44,11 @@ const routes: Routes = [
   {path: 'mainpage', component: MainPageComponent, canActivate: [AuthGuard]},
   {path: 'contact', component: ContactComponent, canActivate: [AuthGuard]},
   {path: 'timeline', component: TimeLineComponent, canActivate: [AuthGuard]},
+  {path: 'timeline/:userId', component: TimeLineComponent, canActivate: [AuthGuard]},
   {path: 'timeline-about', component: TimeAboutComponent, canActivate: [AuthGuard]},
   {path: 'timeline-friends', component: TimeFriendsComponent, canActivate: [AuthGuard]},
   {path: 'timeline-album', component: TimeAlbumComponent, canActivate: [AuthGuard]},
+  {path: 'timeline-videos', component: TimeVideosComponent, canActivate: [AuthGuard]},
   { path: 'friends', component: FriendsComponent , canActivate: [AuthGuard]},
   { path: 'friend-requests', component: FriendRequestsComponent , canActivate: [AuthGuard]},
   {path: 'images', component: ImagesComponent , canActivate: [AuthGuard]},
@@ -79,7 +82,8 @@ const routes: Routes = [
     PostEditComponent,
     FriendRequestsComponent,
     ImagesComponent,
-    VideosComponent
+    VideosComponent,
+    TimeVideosComponent
   ],
   imports: [
     BrowserModule,

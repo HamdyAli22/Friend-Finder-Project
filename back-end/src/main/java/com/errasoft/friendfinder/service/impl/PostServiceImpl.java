@@ -144,6 +144,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostResponseVm getUserPosts(int page, int size, int userId) {
+
+        Pageable pageable = getPageable(page, size);
+
+        Page<Post> posts = postRepo
+                .findByOwnerIdInAndDeletedFalseOrderByCreatedDateDesc(
+                        List.of((long) userId),
+                        pageable
+                );
+
+        List<PostDto> postDtos = postMapper.toPostDtoList(posts.getContent());
+
+        return new PostResponseVm(postDtos, posts.getTotalElements());
+
+    }
+
+    @Override
     public void deletePost(Long id) {
         Post post = postRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("post.not.found"));

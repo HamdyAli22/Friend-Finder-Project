@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Friendship} from '../../../../model/friendship';
 import {FriendshipService} from '../../../../service/friendship.service';
 import {MessageHandlerService} from '../../../../service/message-handler.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-friends',
@@ -11,16 +12,35 @@ import {MessageHandlerService} from '../../../../service/message-handler.service
 export class FriendsComponent implements OnInit {
 
   friends: Friendship[] = [];
+  currentUserId = Number(localStorage.getItem('userId') || 0);
+  userId!: number;
+
+  showBar = true;
 
   constructor(private friendshipService: FriendshipService,
-              private messageService: MessageHandlerService) { }
+              private messageService: MessageHandlerService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
-    this.loadFriends();
+
+    if (this.router.url.includes('/timeline')) {
+      this.showBar = false;
+    }
+
+    this.route.queryParams.subscribe(params => {
+      const id = params.userId;
+
+      this.userId = id
+        ? Number(id)
+        : this.currentUserId;
+
+      this.loadFriends();
+    });
   }
 
   loadFriends(): void {
-    this.friendshipService.getMyFriends().subscribe({
+    this.friendshipService.getUserFriends(this.userId).subscribe({
       next: (data) => {
         this.friends = data.map(f => ({
           ...f,

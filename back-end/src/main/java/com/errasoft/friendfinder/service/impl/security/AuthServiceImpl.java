@@ -6,6 +6,10 @@ import com.errasoft.friendfinder.controller.vm.AuthRequestVm;
 import com.errasoft.friendfinder.controller.vm.AuthResponseVm;
 import com.errasoft.friendfinder.dto.security.AccountDto;
 import com.errasoft.friendfinder.dto.security.RoleDto;
+import com.errasoft.friendfinder.mapper.security.AccountMapper;
+import com.errasoft.friendfinder.model.security.Account;
+import com.errasoft.friendfinder.repo.FriendshipRepo;
+import com.errasoft.friendfinder.repo.security.AccountRepo;
 import com.errasoft.friendfinder.service.security.AccountService;
 import com.errasoft.friendfinder.service.security.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +28,23 @@ public class AuthServiceImpl implements AuthService {
     private AccountService accountService;
     private TokenHandler tokenHandler;
     private PasswordEncoder passwordEncoder;
+    private AccountRepo accountRepo;
+    private AccountMapper accountMapper;
+    private FriendshipRepo friendshipRepo;
 
     @Autowired
-    public AuthServiceImpl(AccountService accountService, TokenHandler tokenHandler, PasswordEncoder passwordEncoder) {
+    public AuthServiceImpl(AccountService accountService,
+                           TokenHandler tokenHandler,
+                           PasswordEncoder passwordEncoder,
+                           AccountRepo accountRepo,
+                           AccountMapper accountMapper,
+                           FriendshipRepo friendshipRepo) {
         this.accountService = accountService;
         this.tokenHandler = tokenHandler;
         this.passwordEncoder = passwordEncoder;
+        this.accountRepo = accountRepo;
+        this.accountMapper = accountMapper;
+        this.friendshipRepo = friendshipRepo;
     }
 
 
@@ -82,6 +97,21 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AccountDto accountDto = (AccountDto)authentication.getPrincipal();
         return accountDto;
+    }
+
+    @Override
+    public AccountDto getUserById(Long userId) {
+
+        Long id = userId != null ? userId : getCurrentUserId();
+        Account account = accountRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("account.not.found"));
+
+        AccountDto dto = accountMapper.toAccountDto(account);
+
+        int friendsCount = friendshipRepo.findAcceptedFriendIds(id).size();
+        dto.setFriendsCount(friendsCount);
+
+        return dto;
     }
 
     @Override

@@ -21,3 +21,19 @@
   align-items: center;
   margin-bottom: 15px;
 }
+
+
+.preview-video {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.preview-video:hover {
+  transform: scale(1.03);
+}
+
+.video-preview-large {
+  max-height: 90vh;
+  width: auto;
+  border-radius: 8px;
+}

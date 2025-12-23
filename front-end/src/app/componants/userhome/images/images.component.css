@@ -20,3 +20,17 @@
   align-items: center;
   margin-bottom: 15px;
 }
+
+.preview-img {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.preview-img:hover {
+  transform: scale(1.03);
+}
+
+.preview-large {
+  max-height: 90vh;
+  border-radius: 8px;
+}

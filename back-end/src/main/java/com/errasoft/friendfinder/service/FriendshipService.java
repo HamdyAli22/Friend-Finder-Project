@@ -18,6 +18,8 @@ public interface FriendshipService {
 
     List<FriendResponseVM> getMyFriends();
 
+    List<FriendResponseVM> getUserFriends(Long userId);
+
     List<FriendResponseVM> getPendingReceivedRequests();
 
     List<FriendResponseVM> getPendingSentRequests();

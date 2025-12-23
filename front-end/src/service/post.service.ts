@@ -37,4 +37,9 @@ export class PostService {
       .pipe(map(response => response));
   }
 
+  getUserPosts(pageNo: number, pageSize: number , userId: number): Observable<any> {
+    return this.http.get<Post[]>(this.baseUrl + 'user-posts?page=' + pageNo + '&size=' + pageSize + '&userId=' + userId)
+      .pipe(map(response => response));
+  }
+
 }

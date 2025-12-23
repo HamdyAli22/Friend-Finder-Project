@@ -49,6 +49,15 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
+    @GetMapping("/user-posts")
+    public ResponseEntity<PostResponseVm> getUserPosts(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam int userId) {
+        return ResponseEntity.ok(postService.getUserPosts(page, size, userId));
+    }
+
+
     @DeleteMapping("delete-post")
     public ResponseEntity<Void> delete(@RequestParam Long id) {
         postService.deletePost(id);

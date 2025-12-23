@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {UserMedia} from '../../../../model/user-media';
 import {MediaService} from '../../../../service/media.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-videos',
@@ -14,10 +16,21 @@ export class VideosComponent implements OnInit {
   loading = false;
   userId?: number;
 
+  showBar = true;
+
+  selectedVideo?: UserMedia;
+
+
   constructor(private mediaService: MediaService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
+
+    if (this.router.url.includes('/timeline')) {
+      this.showBar = false;
+    }
+
     this.route.queryParams.subscribe(params => {
       this.userId = params.userId;
       this.loadVideos();
@@ -36,6 +49,11 @@ export class VideosComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  openPreview(video: UserMedia): void {
+    this.selectedVideo = video;
+    $('#videoPreviewModal').modal('show'); // Bootstrap modal
   }
 
 

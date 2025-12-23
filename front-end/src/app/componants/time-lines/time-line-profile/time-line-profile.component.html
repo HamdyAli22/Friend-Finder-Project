@@ -6,7 +6,7 @@
       <div class="col-md-3">
         <div class="profile-info">
           <img src="assets/images/users/user-1.jpg" alt="" class="img-responsive profile-photo">
-          <h3>Sarah Cruiz</h3>
+          <h3>{{ profile?.username }}</h3>
           <p class="text-muted">Creative Director</p>
         </div>
       </div>
@@ -15,32 +15,51 @@
           <li><a routerLink="/timeline" routerLinkActive="active">Timeline</a></li>
           <li><a routerLink="/timeline-about" routerLinkActive="active">About</a></li>
           <li><a routerLink="/timeline-album" routerLinkActive="active">Album</a></li>
+          <li><a routerLink="/timeline-videos" routerLinkActive="active">Videos</a></li>
           <li><a routerLink="/timeline-friends" routerLinkActive="active">Friends</a></li>
         </ul>
         <ul class="follow-me list-inline">
-          <li>1,299 people following her</li>
-          <li><button class="btn-primary">Add Friend</button></li>
+          <li>{{profile?.friendsCount}} followers</li>
+
+          <!-- Add Friend -->
+          <li *ngIf="profile?.id !== currentUserId && !isFriend && !requestSent">
+            <button class="btn-primary" (click)="addFriend()">Add Friend</button>
+          </li>
+
+          <!-- Cancel Request -->
+          <li *ngIf="requestSent && profile?.id !== currentUserId">
+            <button class="btn-cancel-request" (click)="cancelRequest()">
+              Cancel Request
+            </button>
+          </li>
+
+          <!-- My Friend -->
+          <li *ngIf="profile?.id !== currentUserId && isFriend" class="text-success" style="font-size:12px;">
+            My Friend
+          </li>
+
         </ul>
       </div>
     </div>
-  </div><!--Timeline Menu for Large Screens End-->
+  </div>
 
   <!--Timeline Menu for Small Screens-->
   <div class="navbar-mobile hidden-lg hidden-md">
     <div class="profile-info">
       <img src="assets/images/users/user-1.jpg" alt="" class="img-responsive profile-photo">
-      <h4>Sarah Cruiz</h4>
+      <h4>{{ profile?.username }}</h4>
       <p class="text-muted">Creative Director</p>
     </div>
     <div class="mobile-menu">
       <ul class="list-inline">
-        <li><a href="timline.html" class="active">Timeline</a></li>
-        <li><a href="timeline-about.html">About</a></li>
-        <li><a href="timeline-album.html">Album</a></li>
-        <li><a href="timeline-friends.html">Friends</a></li>
+        <li><a routerLink="/timeline" class="active">Timeline</a></li>
+        <li><a routerLink="/timeline-about">About</a></li>
+        <li><a routerLink="/timeline-album">Album</a></li>
+        <li><a routerLink="/timeline-friends">Friends</a></li>
       </ul>
-      <button class="btn-primary">Add Friend</button>
+      <button *ngIf="profile?.id !== currentUserId && !isFriend && !requestSent" class="btn-primary" (click)="addFriend()">Add Friend</button>
+      <button *ngIf="requestSent && profile?.id !== currentUserId" class="btn btn-secondary" (click)="cancelRequest()">Cancel Request</button>
     </div>
-  </div><!--Timeline Menu for Small Screens End-->
+  </div>
 
 </div>

@@ -31,4 +31,9 @@ public class AuthController {
     ResponseEntity<AuthResponseVm> signup(@RequestBody @Valid AccountDto  accountDto){
         return ResponseEntity.ok(authService.signup(accountDto));
     }
+
+    @GetMapping("/user-profile")
+    public AccountDto getUserProfile(@RequestParam(required = false) Long id) {
+        return authService.getUserById(id);
+    }
 }

@@ -10,5 +10,6 @@ public interface AuthService {
     AuthResponseVm signup(AccountDto accountDto);
     Long getCurrentUserId();
     AccountDto getCurrentUser();
+    AccountDto getUserById(Long id);
     String getCurrentUserEmail();
 }

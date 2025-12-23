@@ -18,5 +18,7 @@ public interface PostService {
 
     PostResponseVm getMyPosts(int page, int size);
 
+    PostResponseVm getUserPosts(int page, int size,int userId);
+
     void deletePost(Long id);
 }

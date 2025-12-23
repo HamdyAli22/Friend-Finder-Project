@@ -28,18 +28,18 @@
             </div>
 
             <div class="post-container">
-
+              <div class="post-header">
               <!-- Three dots for current user -->
-              <div class="post-options"  *ngIf="post.owner?.id === currentUserId">
-                <button class="dots-btn" id="dots-btn-{{post.id}}" (click)="toggleDropdown(post)">⋯</button>
-                <ul class="dropdown" id="dropdown-{{post.id}}" *ngIf="post.showDropdown">
+                <div class="post-options"  *ngIf="post.owner?.id === currentUserId">
+                  <button class="dots-btn" id="dots-btn-{{post.id}}" (click)="toggleDropdown(post)">⋯</button>
+                  <ul class="dropdown" id="dropdown-{{post.id}}" *ngIf="post.showDropdown">
                   <li (click)="editPost(post); $event.stopPropagation()">Edit</li>
                   <li (click)="deletePost(post); $event.stopPropagation()">Delete</li>
-                </ul>
+                  </ul>
+                </div>
               </div>
-
               <!-- Post Content -->
-              <div class="post-detail">
+<!--              <div class="post-detail">-->
 
 
                 <div class="post-text">
@@ -54,7 +54,7 @@
                 <video *ngIf="post.mediaType === 'VIDEO'" class="post-video" controls>
                   <source [src]="post.mediaUrl" type="video/mp4"/>
                 </video>
-              </div>
+<!--              </div>-->
 
 
               <div class="reaction">
@@ -143,4 +143,10 @@
       </div>
     </div>
   </div>
+  <app-post-edit
+    *ngIf="showEditModal"
+    [post]="postBeingEdited"
+    (postUpdated)="handlePostUpdated($event)"
+    (closed)="handleModalClosed()">
+  </app-post-edit>
 </div>

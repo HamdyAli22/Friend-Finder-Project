@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
 
-      <app-left-bar></app-left-bar>
+      <app-left-bar *ngIf="showBar"></app-left-bar>
 
       <div class="col-md-7">
 
@@ -29,8 +29,10 @@
                 <img
                   [src]="'http://localhost:8081' + img.mediaUrl"
                   alt="user image"
-                  class="img-responsive"
+                  class="img-responsive preview-img"
+                  (click)="openPreview(img)"
                 />
+
 
               </div>
             </div>
@@ -39,8 +41,27 @@
 
       </div>
 
-      <app-right-bar></app-right-bar>
+      <app-right-bar *ngIf="showBar"></app-right-bar>
 
     </div>
   </div>
+
+  <!-- Image Preview Modal -->
+  <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0">
+
+        <div class="modal-body text-center">
+          <img
+            *ngIf="selectedImage"
+            [src]="'http://localhost:8081' + selectedImage.mediaUrl"
+            class="img-fluid preview-large"
+          />
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
 </div>

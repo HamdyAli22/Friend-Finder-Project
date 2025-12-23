@@ -3,6 +3,7 @@ import {EventEmitter} from 'protractor';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {Account} from '../model/account';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,14 @@ export class AuthService {
   isUserLogin(): boolean{
     return localStorage.getItem('token') !== null &&
       localStorage.getItem('token') !== undefined;
+  }
+
+  getProfile(userId?: number): Observable<Account> {
+    let params = {};
+    if (userId) {
+      params = { id: userId };
+    }
+
+    return this.http.get<Account>(this.baseUrl + 'user-profile', { params });
   }
 }

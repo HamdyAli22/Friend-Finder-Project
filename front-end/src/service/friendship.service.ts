@@ -39,6 +39,10 @@ export class FriendshipService {
     return this.http.get<Friendship[]>(this.baseUrl + '/my-friends');
   }
 
+  getUserFriends(userId?: number): Observable<Friendship[]> {
+    return this.http.get<Friendship[]>(this.baseUrl + '/user-friends?userId=' + userId);
+  }
+
   getPendingReceivedRequests(): Observable<Friendship[]> {
     return this.http.get<Friendship[]>(this.baseUrl + '/pending/received');
   }

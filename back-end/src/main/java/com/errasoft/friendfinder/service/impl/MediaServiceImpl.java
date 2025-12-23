@@ -35,9 +35,9 @@ public class MediaServiceImpl implements MediaService {
         List<Post> posts;
 
         if (type != null) {
-            posts = postRepo.findByOwnerIdAndMediaType(targetUserId, type);
+            posts = postRepo.findByOwnerIdAndMediaTypeAndDeletedFalse(targetUserId, type);
         } else {
-            posts = postRepo.findByOwnerId(targetUserId);
+            posts = postRepo.findByOwnerIdAndDeletedFalse(targetUserId);
         }
 
         return posts.stream().map(p -> new MediaVM(

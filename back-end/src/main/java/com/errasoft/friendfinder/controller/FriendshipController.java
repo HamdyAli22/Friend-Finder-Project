@@ -46,6 +46,12 @@ public class FriendshipController {
         return ResponseEntity.ok(friendshipService.getMyFriends());
     }
 
+    @GetMapping("/user-friends")
+    public ResponseEntity<List<FriendResponseVM>> userFriends(@RequestParam Long userId) {
+        return ResponseEntity.ok(friendshipService.getUserFriends(userId));
+    }
+
+
     @GetMapping("/pending/received")
     public ResponseEntity<List<FriendResponseVM>> pendingReceived() {
         return ResponseEntity.ok(friendshipService.getPendingReceivedRequests());

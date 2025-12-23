@@ -33,6 +33,8 @@ public class AccountDto implements Serializable {
 
     private boolean enabled;
 
+    private Integer friendsCount;
+
     @NotEmpty(message = "not_empty.email")
     @Email(message = "not_valid.email")
     private String email;

@@ -21,4 +21,6 @@ public interface PostService {
     PostResponseVm getUserPosts(int page, int size,int userId);
 
     void deletePost(Long id);
+
+    PostResponseVm searchPosts(String keyword, int page, int size);
 }

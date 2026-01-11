@@ -1,5 +1,6 @@
 package com.errasoft.friendfinder.model.security;
 
+import com.errasoft.friendfinder.model.ContactInfo;
 import com.errasoft.friendfinder.model.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.errasoft.friendfinder.model.Notification;
@@ -44,6 +45,10 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account")
+    @JsonIgnore
+    private List<ContactInfo> contacts;
 
     @OneToMany(mappedBy = "account")
     private List<Notification> notifications;

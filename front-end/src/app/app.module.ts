@@ -33,7 +33,9 @@ import { ImagesComponent } from './componants/userhome/images/images.component';
 import { VideosComponent } from './componants/userhome/videos/videos.component';
 import {SharedModule} from '../model/shared-module';
 import { TimeVideosComponent } from './componants/time-lines/time-videos/time-videos.component';
-
+import { NotificationComponent } from './componants/notification/notification.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SentMessagesComponent } from './componants/userhome/sent-messages/sent-messages.component';
 
 
 // http://localhost:4200
@@ -53,6 +55,7 @@ const routes: Routes = [
   { path: 'friend-requests', component: FriendRequestsComponent , canActivate: [AuthGuard]},
   {path: 'images', component: ImagesComponent , canActivate: [AuthGuard]},
   {path: 'videos', component: VideosComponent , canActivate: [AuthGuard]},
+  { path: 'sent-messages', component: SentMessagesComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/mainpage', pathMatch: 'full' },
   { path: '**', redirectTo: '/mainpage', pathMatch: 'full' },
 ];
@@ -83,14 +86,17 @@ const routes: Routes = [
     FriendRequestsComponent,
     ImagesComponent,
     VideosComponent,
-    TimeVideosComponent
+    TimeVideosComponent,
+    NotificationComponent,
+    SentMessagesComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    NgbModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     { provide: APP_BASE_HREF, useValue: '/' }],

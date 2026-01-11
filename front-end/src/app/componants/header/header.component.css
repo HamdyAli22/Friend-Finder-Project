@@ -1,17 +1,52 @@
-.logout-link {
-  color: #fff !important;
-  font-weight: 600;
-  text-transform: capitalize;
-  transition: color 0.3s ease;
+/* =====================[ Notification Bell – FIXED ]===================== */
+
+/* li */
+.notification-li {
+  position: relative;
+  height: 50px;
+  display: flex;
+  align-items: center;
 }
 
-.logout-link:hover {
-  color: #27aae1 !important; /* نفس لون hover لباقي اللينكات */
-  text-decoration: none;
+/* wrapper بتاع الجرس */
+.notification-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  padding: 0 15px;
+  cursor: pointer;
 }
 
-.logout-link i {
-  margin-right: 5px;
-  font-size: 16px;
-  vertical-align: middle;
+/* أيقونة الجرس */
+.notification-wrapper i {
+  font-size: 20px;
+  color: #ffc107;
+  line-height: 1;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.notification-wrapper:hover i {
+  color: #ffca2c;
+  transform: scale(1.1);
+}
+
+/* البادچ */
+.notification-badge {
+  position: absolute;
+  top: 10px;
+  right: 9px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  line-height: 18px;
+  text-align: center;
+  background: #dc3545;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50%;
+  border: 2px solid #1f1f1f;
+  pointer-events: none;
 }

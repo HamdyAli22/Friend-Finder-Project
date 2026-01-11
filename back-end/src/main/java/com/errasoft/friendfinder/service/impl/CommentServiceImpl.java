@@ -11,6 +11,7 @@ import com.errasoft.friendfinder.model.security.Account;
 import com.errasoft.friendfinder.repo.CommentRepo;
 import com.errasoft.friendfinder.repo.PostRepo;
 import com.errasoft.friendfinder.service.CommentService;
+import com.errasoft.friendfinder.service.NotificationService;
 import com.errasoft.friendfinder.service.security.AuthService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,17 +30,20 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
     private AuthService authService;
     private AccountMapper accountMapper;
+    private NotificationService notificationService;
 
     public CommentServiceImpl(CommentRepo commentRepo,
                               PostRepo postRepo,
                               CommentMapper commentMapper,
                               AccountMapper accountMapper,
-                              AuthService authService) {
+                              AuthService authService,
+                              NotificationService notificationService) {
         this.commentRepo = commentRepo;
         this.postRepo = postRepo;
         this.commentMapper = commentMapper;
         this.accountMapper = accountMapper;
         this.authService = authService;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -59,6 +63,9 @@ public class CommentServiceImpl implements CommentService {
         post.setCommentsCount(post.getCommentsCount() == null ? 1L : post.getCommentsCount() + 1);
         postRepo.save(post);
 
+        if (!comment.getOwner().getId().equals(post.getOwner().getId())){
+            notificationService.handleNotification(comment.getOwner(),post.getOwner(),null,"COMMENT",post.getId());
+        }
         return commentMapper.toCommentDto(saved);
     }
 

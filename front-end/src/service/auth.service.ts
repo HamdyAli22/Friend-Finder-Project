@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import {EventEmitter} from 'protractor';
+import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -11,7 +10,7 @@ import {Account} from '../model/account';
 export class AuthService {
 
   baseUrl = 'http://localhost:8081/auth/';
- // userLoggedIn = new EventEmitter<string>();
+  userLoggedIn = new EventEmitter<string>();
 
   constructor(private http: HttpClient) { }
 
@@ -32,7 +31,7 @@ export class AuthService {
             localStorage.setItem('roles', response.roles);
             localStorage.setItem('userId', response.userId);
             localStorage.setItem('username', response.username);
-      //      this.userLoggedIn.emit(email);
+            this.userLoggedIn.emit(email);
           }
           return response;
         }

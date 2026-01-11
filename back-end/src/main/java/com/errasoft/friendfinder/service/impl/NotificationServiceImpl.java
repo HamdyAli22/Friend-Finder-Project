@@ -7,7 +7,7 @@ import com.errasoft.friendfinder.mapper.NotificationMapper;
 import com.errasoft.friendfinder.model.Notification;
 import com.errasoft.friendfinder.model.security.Account;
 import com.errasoft.friendfinder.repo.security.AccountRepo;
-import com.errasoft.friendfinder.repo.security.NotificationRepo;
+import com.errasoft.friendfinder.repo.NotificationRepo;
 import com.errasoft.friendfinder.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -61,7 +61,7 @@ public class NotificationServiceImpl implements NotificationService {
     public List<NotificationDto> getNotificationsByUser(String email) {
         Account account = accountRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("account.username.notExists"));
-        List<Notification> notifications = notificationRepo.findByAccountOrderByCreatedDateDesc(account);
+        List<Notification> notifications = notificationRepo.findByAccountAndDeletedFalseOrderByCreatedDateDesc(account);
         if(notifications.isEmpty()){
             throw new RuntimeException("notifications.not.found");
         }
@@ -72,7 +72,7 @@ public class NotificationServiceImpl implements NotificationService {
     public List<NotificationDto> getUnreadNotifications(String email) {
         Account account = accountRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("account.username.notExists"));
-        List<Notification> notifications = notificationRepo.findByAccountAndReadFalseOrderByCreatedDateDesc(account);
+        List<Notification> notifications = notificationRepo.findByAccountAndReadFalseAndDeletedFalseOrderByCreatedDateDesc(account);
         if(notifications.isEmpty()){
             throw new RuntimeException("notifications.not.found");
         }
@@ -82,7 +82,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public NotificationDto markAsRead(Long notificationId) {
 
-        Notification notification = notificationRepo.findById(notificationId)
+        Notification notification = notificationRepo.findByIdAndDeletedFalse(notificationId)
                 .orElseThrow(() -> new RuntimeException("notification.not.found"));
         notification.setRead(true);
         notification.setUpdatedDate(LocalDateTime.now());
@@ -91,37 +91,31 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void handleNotification(Account user, Account admin, String message,String type){
+    public void handleNotification(Account requester, Account receiver, String message,String type,Long postId) {
 
         switch (type){
-            case "NEW_MESSAGE":
-                saveNotification(admin,
-                        "User " + user.getUsername() + " sent a new message: \"" + message + "\"",
-                         type);
+            case "NEW_REQUEST":
+                saveNotification(receiver,
+                        "User " + requester.getUsername() + " sent you friend request",
+                         type,null);
                 break;
 
-            case "UPDATE_MESSAGE":
-                saveNotification(admin,
-                        "User " + user.getUsername() + " updated their message: \"" + message + "\"",
-                        type);
+            case "ACCEPT_REQUEST":
+                saveNotification(requester,
+                        "User " + receiver.getUsername() + " accepted your friend request",
+                        type,null);
                 break;
 
-            case "ADMIN_REPLY":
-                saveNotification(user,
-                        "Admin replied to your message: \"" + message + "\"",
-                        type);
+            case "REACT":
+                saveNotification(receiver,
+                        "User " + requester.getUsername() + " reacted to your post",
+                        type,postId);
                 break;
 
-            case "NEW_ORDER":
-                saveNotification(user,message,type);
-                break;
-
-            case "NEW_PRODUCT", "NEW_CATEGORY":
-                List<Account> allUsers = accountRepo.findAll().stream()
-                        .filter(acc -> acc.getRoles().stream()
-                                .anyMatch(role -> role.getRoleName().equalsIgnoreCase("USER")))
-                        .toList();
-                saveNotifications(allUsers,message,type);
+            case "COMMENT":
+                saveNotification(receiver,
+                        "User " + requester.getUsername() + " commented on your post",
+                        type,postId);
                 break;
 
             default:
@@ -129,12 +123,15 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
-    private void saveNotification(Account account, String message, String type) {
+    private void saveNotification(Account account, String message, String type, Long postId) {
         Notification notification = new Notification();
         notification.setType(type);
         notification.setAccount(account);
         notification.setMessage(message);
+        notification.setPostId(postId);
         notification.setRead(false);
+        notification.setDeleted(false);
+        notification.setCreatedDate(LocalDateTime.now());
         notificationRepo.save(notification);
     }
 
@@ -157,9 +154,15 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void deleteNotificationById(Long id) {
-        Notification notification = notificationRepo.findById(id)
+
+        Notification notification = notificationRepo.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new RuntimeException("notification.not.found"));
-        notificationRepo.delete(notification);
+
+        notification.setDeleted(true);
+
+        notification.setUpdatedDate(LocalDateTime.now());
+
+        notificationRepo.save(notification);
     }
 
     @Override

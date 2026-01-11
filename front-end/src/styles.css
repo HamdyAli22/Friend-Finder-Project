@@ -1,0 +1,5 @@
+/* styles.css */
+.ngb-pagination .page-item.active .page-link {
+  background-color: #00c2ff;
+  border-color: #00c2ff;
+}

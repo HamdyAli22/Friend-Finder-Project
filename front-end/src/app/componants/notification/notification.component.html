@@ -1,0 +1,59 @@
+<div class="notification-dropdown">
+
+  <!-- Header -->
+  <div class="notification-header">
+    <h5>Notifications</h5>
+
+    <!-- 3 نقاط الهيدر -->
+    <button class="three-dots"
+            *ngIf="notifications.length > 0"
+            (click)="toggleHeaderMenu($event)">
+      <i class="bi bi-three-dots-vertical"></i>
+    </button>
+
+    <!-- Dropdown الهيدر -->
+    <div class="header-dropdown" *ngIf="showHeaderMenu" [ngStyle]="headerDropdownStyle">
+      <button (click)="markAllAsRead($event)">Mark all as read</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="notification-body">
+
+    <!-- رسالة لو مفيش notifications -->
+    <div *ngIf="notifications.length === 0" class="no-notifications">
+      No notifications found
+    </div>
+
+    <!-- notifications list -->
+    <div *ngFor="let n of notifications"
+         class="notification-item"
+         [class.unread]="!n.read"
+         (click)="onNotificationClick(n)">
+
+      <div class="text">
+        <div class="message">{{ n.message }}</div>
+        <small>{{ getTimeAgo(n.createdDate) }}</small>
+      </div>
+
+      <span *ngIf="!n.read" class="dot"></span>
+
+      <!-- 3 نقاط لكل إشعار -->
+      <div class="item-menu" (click)="$event.stopPropagation()">
+        <button class="three-dots" (click)="toggleItemMenu($event, n)">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+
+        <!-- Dropdown لكل Notification -->
+        <div class="item-dropdown"
+             *ngIf="n.showMenu"
+             [ngStyle]="n.dropdownStyle">
+          <button (click)="onMarkAsReadClick($event, n)">Mark as read</button>
+          <button class="danger" (click)="onDeleteClick($event, n)">Delete this notification</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

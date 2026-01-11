@@ -15,7 +15,7 @@ public interface NotificationService {
 
     NotificationDto markAsRead(Long notificationId);
 
-    void handleNotification(Account user, Account admin, String message,String type);
+    void handleNotification(Account requester, Account receiver, String message,String type,Long postId);
 
     void deleteNotificationById(Long id);
 

@@ -11,7 +11,7 @@
           <app-publish (postCreated)="addPostToTop($event)"></app-publish>
 
           <!-- Dynamic Posts -->
-          <div *ngFor="let post of posts" class="post-content">
+          <div *ngFor="let post of filteredPosts" class="post-content">
 
             <div class="post-date hidden-xs hidden-sm">
               <h5>{{ post.owner?.username }}</h5>
@@ -58,10 +58,14 @@
 
 
               <div class="reaction">
-                <a class="btn text-green" (click)="likePost(post)">
+                <a class="btn text-green"
+                   (click)="likePost(post)"
+                   [title]="post.likesTooltip">
                   <i class="icon ion-thumbsup"></i> {{ post.likesCount || 0 }}
                 </a>
-                <a class="btn text-red" (click)="dislikePost(post)">
+                <a class="btn text-red"
+                   (click)="dislikePost(post)"
+                   [title]="post.dislikesTooltip">
                   <i class="fa fa-thumbs-down"></i> {{ post.dislikesCount || 0 }}
                 </a>
               </div>
@@ -138,8 +142,10 @@
           </div>
 
         </div>
+        <app-time-line-detailes
+          [username]="posts[0]?.owner?.username">
+        </app-time-line-detailes>
 
-        <app-time-line-detailes></app-time-line-detailes>
       </div>
     </div>
   </div>

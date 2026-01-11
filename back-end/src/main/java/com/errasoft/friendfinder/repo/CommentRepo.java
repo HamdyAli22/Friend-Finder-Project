@@ -23,4 +23,7 @@ public interface CommentRepo extends JpaRepository<Comment, Long> {
     @Transactional
     @Query("UPDATE Comment c SET c.deleted = true WHERE c.post.id = :postId AND c.deleted = false")
     void softDeleteByPostId(Long postId);
+
+    List<Comment> findTop4ByOwnerIdAndDeletedFalseOrderByCreatedDateDesc(Long ownerId);
+
 }

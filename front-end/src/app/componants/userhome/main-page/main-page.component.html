@@ -8,7 +8,7 @@
         <app-publish (postCreated)="addPostToTop($event)"></app-publish>
 
         <!-- Dynamic Posts -->
-        <div *ngFor="let post of posts" class="post-content">
+        <div *ngFor="let post of filteredPosts" class="post-content">
           <!-- Delete Confirmation Modal -->
           <div *ngIf="post.showDeleteConfirm" class="confirm-modal">
             <div class="confirm-modal-content">
@@ -60,13 +60,18 @@
 
 
             <div class="reaction">
-              <a class="btn text-green" (click)="likePost(post)">
+              <a class="btn text-green"
+                 (click)="likePost(post)"
+                 [title]="post.likesTooltip">
                 <i class="icon ion-thumbsup"></i> {{ post.likesCount || 0 }}
               </a>
-              <a class="btn text-red" (click)="dislikePost(post)">
+              <a class="btn text-red"
+                 (click)="dislikePost(post)"
+                 [title]="post.dislikesTooltip">
                 <i class="fa fa-thumbs-down"></i> {{ post.dislikesCount || 0 }}
               </a>
             </div>
+
 
 
 

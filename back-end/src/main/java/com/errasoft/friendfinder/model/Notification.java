@@ -28,4 +28,9 @@ public class Notification extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @Column(name = "post_id")
+    private Long postId;
+
+    private boolean deleted = false;
 }

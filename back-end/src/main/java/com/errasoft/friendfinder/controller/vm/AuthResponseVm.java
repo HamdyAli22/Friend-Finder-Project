@@ -16,6 +16,7 @@ public class AuthResponseVm {
 
     private long userId;
     private String username;
+    private String email;
     private String token;
     @JsonProperty("roles")
     private List<String> userRoles;

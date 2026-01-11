@@ -1,38 +1,89 @@
 <div class="google-maps">
   <div id="map" class="map contact-map"></div>
 </div>
+
 <div id="page-contents">
   <div class="container">
     <div class="row">
       <div class="col-md-10 col-md-offset-1">
         <div class="contact-us">
           <div class="row">
+
+            <!-- Contact Form -->
             <div class="col-md-8 col-sm-7">
               <h4 class="grey">Leave a Message</h4>
-              <form class="contact-form">
+
+              <form class="contact-form"
+                    #contactForm="ngForm"
+                    (ngSubmit)="saveContact()">
+
                 <div class="form-group">
                   <i class="icon ion-person"></i>
-                  <input id="contact-name" type="text" name="name" class="form-control" placeholder="Enter your name *" required="required" data-error="Name is required.">
+                  <input id="contact-name"
+                         type="text"
+                         name="name"
+                         class="form-control"
+                         placeholder="Enter your name *"
+                         required
+                         [(ngModel)]="contact.name">
                 </div>
+
                 <div class="form-group">
                   <i class="icon ion-email"></i>
-                  <input id="contact-email" type="text" name="email" class="form-control" placeholder="Enter your email *" required="required" data-error="Email is required.">
+                  <input id="contact-email"
+                         type="email"
+                         name="email"
+                         class="form-control"
+                         placeholder="Enter your email *"
+                         required
+                         [(ngModel)]="contact.email">
                 </div>
+
                 <div class="form-group">
                   <i class="icon ion-android-call"></i>
-                  <input id="contact-phone" type="text" name="phone" class="form-control" placeholder="Enter your phone *" required="required" data-error="Phone is required.">
+                  <input id="contact-phone"
+                         type="text"
+                         name="phone"
+                         class="form-control"
+                         placeholder="Enter your phone *"
+                         required
+                         [(ngModel)]="contact.phone">
                 </div>
+
                 <div class="form-group">
-                  <textarea id="form-message" name="message" class="form-control" placeholder="Leave a message for us *" rows="4" required="required" data-error="Please,leave us a message."></textarea>
+                  <textarea id="form-message"
+                            name="message"
+                            class="form-control"
+                            placeholder="Leave a message for us *"
+                            rows="4"
+                            required
+                            [(ngModel)]="contact.message">
+                  </textarea>
                 </div>
+
+                <button class="btn-primary" type="submit">
+                  Send a Message
+                </button>
+
               </form>
-              <button class="btn-primary">Send a Message</button>
             </div>
+
+            <!-- Reach Us -->
             <div class="col-md-4 col-sm-5">
               <h4 class="grey">Reach Us</h4>
-              <div class="reach"><span class="phone-icon"><i class="icon ion-android-call"></i></span><p>+1 (234) 222 0754</p></div>
-              <div class="reach"><span class="phone-icon"><i class="icon ion-email"></i></span><p>info@thunder-team.com</p></div>
-              <div class="reach"><span class="phone-icon"><i class="icon ion-ios-location"></i></span><p>228 Park Ave S NY, USA</p></div>
+              <div class="reach">
+                <span class="phone-icon"><i class="icon ion-android-call"></i></span>
+                <p>+1 (234) 222 0754</p>
+              </div>
+              <div class="reach">
+                <span class="phone-icon"><i class="icon ion-email"></i></span>
+                <p>info@thunder-team.com</p>
+              </div>
+              <div class="reach">
+                <span class="phone-icon"><i class="icon ion-ios-location"></i></span>
+                <p>228 Park Ave S NY, USA</p>
+              </div>
+
               <ul class="list-inline social-icons">
                 <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
                 <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
@@ -41,9 +92,15 @@
                 <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
               </ul>
             </div>
+
           </div>
         </div>
       </div>
+    </div>
+    <!-- ✅ Popup message inside same container -->
+    <div *ngIf="messageAr || messageEn" class="alert-popup">
+      <p class="msg-en">{{ messageEn }}</p>
+      <p class="msg-ar">{{ messageAr }}</p>
     </div>
   </div>
 </div>

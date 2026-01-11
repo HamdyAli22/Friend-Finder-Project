@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Activity} from '../../../../model/activity';
+import {ActivityService} from '../../../../service/activity.service';
 
 @Component({
   selector: 'app-time-line-detailes',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimeLineDetailesComponent implements OnInit {
 
-  constructor() { }
+  @Input() username!: string;
+  activities: Activity[] = [];
+
+  constructor(private activityService: ActivityService) { }
 
   ngOnInit(): void {
+    this.loadActivities();
+  }
+
+  loadActivities(userId?: number): void {
+    this.activityService.getActivities(userId).subscribe(res => {
+      this.activities = res;
+    });
   }
 
 }

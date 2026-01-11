@@ -1,5 +1,6 @@
 package com.errasoft.friendfinder.service;
 
+import com.errasoft.friendfinder.controller.vm.ReactionUsersVm;
 import com.errasoft.friendfinder.utils.ReactionType;
 
 public interface ReactionService {
@@ -7,4 +8,5 @@ public interface ReactionService {
     public ReactionType getMyReaction(Long postId);
     public long countLikes(Long postId);
     public long countDislikes(Long postId);
+    ReactionUsersVm getPostReactionsUsers(Long postId);
 }

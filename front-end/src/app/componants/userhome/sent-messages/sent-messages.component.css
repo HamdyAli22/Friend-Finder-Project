@@ -1,0 +1,161 @@
+/* Header */
+.page-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.page-header h3 {
+  color: #00c2ff;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Search */
+.filter-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.search-box {
+  position: relative;
+  width: 80%;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 50px 14px 22px;
+  border-radius: 30px;
+  background: rgba(15,28,44,0.8); /* أغمق لتوضيح النص */
+  border: 1px solid rgba(0,194,255,0.4);
+  color: #e0f7ff; /* نص أوضح */
+  font-size: 15px;
+}
+
+.search-box input::placeholder {
+  color: #bcdff5;
+  opacity: 0.8;
+}
+
+.search-box i {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #00c2ff;
+  font-size: 16px;
+}
+
+/* Grid */
+.messages-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+/* Card */
+.contact-card {
+  background: linear-gradient(145deg, #0f1c2c, #14263d);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top */
+.contact-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.contact-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #00c2ff;
+}
+
+.contact-date {
+  font-size: 13px;
+  color: #9fbcd4;
+}
+
+/* Fields */
+.contact-field {
+  margin-bottom: 14px;
+}
+
+.contact-field label {
+  display: block;
+  font-size: 13px;
+  color: #00c2ff;
+  margin-bottom: 6px;
+}
+
+.contact-field .value {
+  background: rgba(255,255,255,0.08);
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+/* Message (BIGGER) */
+.contact-field.message .value {
+  min-height: 140px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* Empty State */
+.no-data {
+  text-align: center;
+  margin: 60px 0;
+  color: #aaa;
+}
+
+.no-data i {
+  font-size: 42px;
+  color: #00c2ff;
+  margin-bottom: 12px;
+}
+
+/* Pagination */
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 35px 0;
+}
+
+/* تنسيق الـ pagination */
+.ngb-pagination .page-item .page-link {
+  background-color: rgba(15,28,44,0.8);
+  color: #00c2ff;
+  border-radius: 8px;
+  border: 1px solid rgba(0,194,255,0.3);
+  margin: 0 3px;
+}
+
+.ngb-pagination .page-item.active .page-link {
+  background-color: #00c2ff;
+  color: #fff;
+  border-color: #00c2ff;
+}
+
+.ngb-pagination .page-item .page-link:hover {
+  background-color: #00b0ff;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .messages-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+}

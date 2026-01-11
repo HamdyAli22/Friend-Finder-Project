@@ -8,6 +8,7 @@ import com.errasoft.friendfinder.model.security.Account;
 import com.errasoft.friendfinder.repo.FriendshipRepo;
 import com.errasoft.friendfinder.repo.security.AccountRepo;
 import com.errasoft.friendfinder.service.FriendshipService;
+import com.errasoft.friendfinder.service.NotificationService;
 import com.errasoft.friendfinder.service.security.AuthService;
 import com.errasoft.friendfinder.utils.FriendshipStatus;
 import org.springframework.stereotype.Service;
@@ -21,15 +22,18 @@ public class FriendshipServiceImpl implements FriendshipService {
     private AccountRepo accountRepo;
     private FriendshipMapper friendshipMapper;
     private AuthService authService;
+    private NotificationService notificationService;
 
     public FriendshipServiceImpl(FriendshipRepo friendshipRepo,
                                  FriendshipMapper friendshipMapper,
                                  AccountRepo accountRepo,
-                                 AuthService authService) {
+                                 AuthService authService,
+                                 NotificationService notificationService) {
         this.friendshipRepo = friendshipRepo;
         this.friendshipMapper = friendshipMapper;
         this.accountRepo = accountRepo;
         this.authService = authService;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -58,6 +62,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         friendship.setReceiver(receiver);
         friendship.setStatus(FriendshipStatus.PENDING);
 
+        notificationService.handleNotification(requester,receiver,null,"NEW_REQUEST",null);
         return friendshipMapper.toFriendshipDto(friendshipRepo.save(friendship));
     }
 
@@ -73,6 +78,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         validatePending(friendship);
         friendship.setStatus(FriendshipStatus.ACCEPTED);
         friendshipRepo.save(friendship);
+        notificationService.handleNotification(friendship.getRequester(),friendship.getReceiver(),null,"ACCEPT_REQUEST",null);
     }
 
     @Override

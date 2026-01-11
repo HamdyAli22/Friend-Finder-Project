@@ -20,4 +20,5 @@ public class NotificationDto {
     private AccountDto account;
     private LocalDateTime createdDate;
     private String type;
+    private Long postId;
 }

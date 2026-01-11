@@ -1,0 +1,40 @@
+.alert-popup {
+  position: fixed;
+  top: 50%;
+  right:20%;
+  transform: translateY(-50%);
+  background-color: #1877f2;
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  z-index: 9999;
+  max-width: 280px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeInOut 5s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-60%); }
+  10%, 90% { opacity: 1; transform: translateY(-50%); }
+  100% { opacity: 0; transform: translateY(-40%); }
+}
+
+.msg-ar, .msg-en {
+  margin: 0;
+  font-size: 15px;
+}
+
+.btn-primary {
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}

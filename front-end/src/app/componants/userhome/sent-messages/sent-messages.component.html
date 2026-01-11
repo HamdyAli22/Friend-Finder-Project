@@ -1,0 +1,101 @@
+<div id="page-contents">
+  <div class="container">
+    <div class="row">
+
+      <!-- Left Bar -->
+      <app-left-bar></app-left-bar>
+
+      <!-- Center Content -->
+      <div class="col-md-7">
+
+        <!-- Header -->
+        <div class="page-header">
+          <h3>Contact Messages</h3>
+        </div>
+
+        <!-- Search (ALWAYS VISIBLE) -->
+        <div class="filter-section">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              placeholder="Search by name, email, phone or message..."
+              [(ngModel)]="searchKeyword"
+              (input)="applyFilter()"
+            />
+          </div>
+        </div>
+
+        <!-- Messages Grid -->
+        <div class="messages-grid" *ngIf="messages.length > 0">
+
+          <div class="contact-card" *ngFor="let msg of messages">
+
+            <!-- Top -->
+            <div class="contact-top">
+              <span class="contact-name">{{ msg.name }}</span>
+              <span class="contact-date">
+                {{ msg.createdAt | date:'medium' }}
+              </span>
+            </div>
+
+            <!-- Email -->
+            <div class="contact-field">
+              <label>Email</label>
+              <div class="value">{{ msg.email }}</div>
+            </div>
+
+            <!-- Phone -->
+            <div class="contact-field">
+              <label>Phone</label>
+              <div class="value">{{ msg.phone || '—' }}</div>
+            </div>
+
+            <!-- Message -->
+            <div class="contact-field message">
+              <label>Message</label>
+              <div class="value">
+                {{ msg.message }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Empty State (ONLY when no results) -->
+        <div class="no-data" *ngIf="messages.length === 0">
+          <i class="fas fa-envelope-open-text"></i>
+          <p>No messages match your search</p>
+        </div>
+
+        <!-- Pagination (ALWAYS VISIBLE) -->
+        <div class="pagination-wrapper">
+          <ngb-pagination
+            [(page)]="pageNo"
+            [pageSize]="pageSize"
+            [collectionSize]="totalMessages"
+            (pageChange)="pageChange($event)"
+            [maxSize]="5"
+            [boundaryLinks]="true">
+          </ngb-pagination>
+        </div>
+
+        <div class="sel">
+          <span class="mr-2">Page Size</span>
+          <select (change)="changePageSize($event)">
+            <option>2</option>
+            <option>5</option>
+            <option selected="true">10</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Right Bar -->
+      <app-right-bar></app-right-bar>
+
+    </div>
+  </div>
+</div>

@@ -4,6 +4,7 @@ import {PostService} from '../../../../service/post.service';
 import {MessageHandlerService} from '../../../../service/message-handler.service';
 import {CommentService} from '../../../../service/comment.service';
 import {ReactionService} from '../../../../service/reaction.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -13,12 +14,14 @@ import {ReactionService} from '../../../../service/reaction.service';
 export class MainPageComponent implements OnInit {
 
   posts: Post[] = [];
+  filteredPosts: Post[] = [];
   pageNo = 1;
   pageSize = 3;
   total = 0;
   loading = false;
   private serverBase = 'http://localhost:8081';
 
+  currentSearchKey = '';
   currentUserId = Number(localStorage.getItem('userId') || 0);
 
   showEditModal = false;
@@ -27,11 +30,19 @@ export class MainPageComponent implements OnInit {
   constructor(private postService: PostService,
               private messageService: MessageHandlerService,
               private commentService: CommentService,
-              private reactionService: ReactionService) { }
+              private reactionService: ReactionService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const key = params['q'] || '';
+      this.currentSearchKey = key;
+      this.filterPosts(key);
+    });
+
     this.loadPosts();
   }
+
 
   get messageEn(): string {
     return this.messageService.messageEn;
@@ -116,7 +127,9 @@ export class MainPageComponent implements OnInit {
               commentPage: 1,
               showMore: true,
               showDropdown: false,
-              showDeleteConfirm: false // ← كل بوست هيبقى له modal
+              showDeleteConfirm: false ,//// ← كل بوست هيبقى له modal
+              likesTooltip: '',
+              dislikesTooltip: ''
             };
           })
         ];
@@ -127,13 +140,43 @@ export class MainPageComponent implements OnInit {
 
         this.posts.forEach(post => {
           if (post.commentsCount > 0) { this.loadInitialComment(post); }
+          this.loadReactionUsers(post);
         });
+
+        this.filterPosts(this.currentSearchKey);
       },
       (error) => {
         this.loading = false;
         this.messageService.handleError(error);
       }
     );
+  }
+
+  onSearchKey(key: string): void {
+    this.currentSearchKey = key;  // نخزن الكلمة الحالية
+    this.filterPosts(key);
+  }
+
+  filterPosts(key: string): void {
+    if (!key || !key.trim()) {
+      this.filteredPosts = [...this.posts];
+      return;
+    }
+
+    const lowerKey = key.toLowerCase();
+
+    this.filteredPosts = this.posts.filter(post => {
+      const matchesPostContent = post.content?.toLowerCase().includes(lowerKey);
+
+      const matchesPostUser = (post.owner?.username ?? '').toLowerCase().includes(lowerKey);
+
+      const matchesComment = post.comments?.some(c =>
+        (c.content ?? '').toLowerCase().includes(lowerKey) ||
+        (c.owner?.username ?? '').toLowerCase().includes(lowerKey)
+      );
+
+      return matchesPostContent || matchesPostUser || matchesComment;
+    });
   }
 
   loadInitialComment(post: Post): void {
@@ -359,6 +402,18 @@ export class MainPageComponent implements OnInit {
       next: counts => {
         post.likesCount = counts.likes;
         post.dislikesCount = counts.dislikes;
+      },
+      error: err => this.messageService.handleError(err)
+    });
+  }
+
+  loadReactionUsers(post: Post): void {
+    this.reactionService.getReactionUsers(post.id).subscribe({
+      next: (res: any) => {
+        post.likesTooltip = res.likes.join('\n') || 'No likes yet';
+        post.dislikesTooltip = res.dislikes.join('\n') || 'No dislikes yet';
+        post.likesCount = res.likes.length;
+        post.dislikesCount = res.dislikes.length;
       },
       error: err => this.messageService.handleError(err)
     });

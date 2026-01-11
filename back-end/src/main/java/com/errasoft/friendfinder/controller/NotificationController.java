@@ -28,15 +28,15 @@ public class NotificationController {
 
     @GetMapping("/user")
     public ResponseEntity<List<NotificationDto>> getUserNotifications(
-            @RequestParam String username) {
-        List<NotificationDto> notifications = notificationService.getNotificationsByUser(username);
+            @RequestParam String email) {
+        List<NotificationDto> notifications = notificationService.getNotificationsByUser(email);
         return ResponseEntity.ok(notifications);
     }
 
     @GetMapping("/user/unread")
     public ResponseEntity<List<NotificationDto>> getUnreadNotifications(
-            @RequestParam String username) {
-        List<NotificationDto> unread = notificationService.getUnreadNotifications(username);
+            @RequestParam String email) {
+        List<NotificationDto> unread = notificationService.getUnreadNotifications(email);
         return ResponseEntity.ok(unread);
     }
 
@@ -48,14 +48,14 @@ public class NotificationController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteProductById(@RequestParam Long id) {
+    public ResponseEntity<Void> deleteNotificationById(@RequestParam Long id) {
         notificationService.deleteNotificationById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/mark-all-read")
-    public ResponseEntity<Void> markAllAsRead(@RequestParam String username) {
-        notificationService.markAllAsRead(username);
+    public ResponseEntity<Void> markAllAsRead(@RequestParam String email) {
+        notificationService.markAllAsRead(email);
         return ResponseEntity.noContent().build();
     }
 

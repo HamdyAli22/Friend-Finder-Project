@@ -1,5 +1,6 @@
 package com.errasoft.friendfinder.controller;
 
+import com.errasoft.friendfinder.controller.vm.ReactionUsersVm;
 import com.errasoft.friendfinder.service.ReactionService;
 import com.errasoft.friendfinder.utils.ReactionType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,4 +41,10 @@ public class ReactionController {
     public ResponseEntity<Long> countDislikes(@RequestParam Long postId) {
         return ResponseEntity.ok(reactionService.countDislikes(postId));
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<ReactionUsersVm> getReactionUsers(@RequestParam Long postId) {
+        return ResponseEntity.ok(reactionService.getPostReactionsUsers(postId));
+    }
+
 }

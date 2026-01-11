@@ -174,6 +174,18 @@ public class PostServiceImpl implements PostService {
         commentRepo.softDeleteByPostId(post.getId());
     }
 
+    @Override
+    public PostResponseVm searchPosts(String keyword, int page, int size) {
+
+        Pageable pageable = getPageable(page, size);
+
+        Page<Post> posts = postRepo.searchPosts(keyword, pageable);
+
+        List<PostDto> postDtos = postMapper.toPostDtoList(posts.getContent());
+
+        return new PostResponseVm(postDtos, posts.getTotalElements());
+    }
+
     private static Pageable getPageable(int page, int size) {
         try {
             if (page < 1) {

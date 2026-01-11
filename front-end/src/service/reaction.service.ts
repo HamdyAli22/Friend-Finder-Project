@@ -27,6 +27,11 @@ export class ReactionService {
     return this.http.get<number>(this.baseUrl + 'dislikes?postId=' + postId);
   }
 
+
+  getReactionUsers(postId: number): Observable<number> {
+    return this.http.get<any>(this.baseUrl + 'users?postId=' + postId);
+  }
+
   reactAndUpdateCounts(postId: number, type: 'LIKE' | 'DISLIKE'): Observable<{likes: number, dislikes: number}> {
     return new Observable(observer => {
       this.react(postId, type).subscribe({

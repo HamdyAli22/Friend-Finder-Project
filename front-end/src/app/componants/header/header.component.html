@@ -41,6 +41,17 @@
             </ul>
           </li>
           <li class="dropdown"><a routerLink="contact">Contact</a></li>
+
+          <li class="notification-li">
+            <span class="notification-wrapper" (click)="toggleNotifications()">
+               <i class="fas fa-bell"></i>
+               <span *ngIf="unreadCount > 0" class="notification-badge">
+                  {{ unreadCount > 99 ? '99+' : unreadCount }}
+               </span>
+           </span>
+          </li>
+
+
           <li class="dropdown">
             <a href="#" (click)="logout()" class="logout-link">
               <i class="ion-log-out"></i> Logout
@@ -50,10 +61,24 @@
         <form class="navbar-form navbar-right hidden-sm" *ngIf="isUserLogin()">
           <div class="form-group">
             <i class="icon ion-android-search"></i>
-            <input type="text" class="form-control" placeholder="Search friends, photos, videos">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Search friends, photos, videos"
+                   #key
+                   (input)="search(key.value)">
           </div>
         </form>
       </div><!-- /.navbar-collapse -->
+
+      <!-- ✅ Notification Dropdown -->
+      <app-notification
+        *ngIf="showNotifications"
+        (closed)="toggleNotifications()"
+        (unreadCountChanged)="unreadCount = $event"
+      ></app-notification>
+
+      <div *ngIf="showNotifications" class="overlay" (click)="toggleNotifications()"></div>
+
     </div><!-- /.container -->
   </nav>
 </header>

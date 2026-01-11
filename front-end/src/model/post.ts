@@ -10,6 +10,8 @@ export class Post {
   likesCount: number;
   commentsCount: number;
   dislikesCount: number;
+  likesTooltip?: string;
+  dislikesTooltip?: string;
   createdDate: string;
   comments: Comment[] = [];
   commentPage = 1;

@@ -14,17 +14,21 @@ import {ActivatedRoute} from '@angular/router';
 export class TimeLineComponent implements OnInit {
 
   posts: Post[] = [];
+  filteredPosts: Post[] = [];
   pageNo = 1;
   pageSize = 3;
   total = 0;
   loading = false;
   private serverBase = 'http://localhost:8081';
 
+  currentSearchKey = '';
   currentUserId = Number(localStorage.getItem('userId') || 0);
   userId: number;
 
   showEditModal = false;
   postBeingEdited?: Post;
+
+  postIdFromNotification?: number;
 
   constructor(private postService: PostService,
               private messageService: MessageHandlerService,
@@ -40,11 +44,22 @@ export class TimeLineComponent implements OnInit {
         ? Number(id)
         : this.currentUserId;
 
+      const postIdParam = params.postId;
+      this.postIdFromNotification = postIdParam ? Number(postIdParam) : undefined;
+
+      const key = params['q'] || '';
+      this.currentSearchKey = key;
+
       this.posts = [];
+      this.filteredPosts = [];
       this.pageNo = 1;
       this.total = 0;
 
-      this.loadPosts();
+      if (this.postIdFromNotification) {
+        this.loadSinglePost(this.postIdFromNotification);
+      } else {
+        this.loadPosts();
+      }
     });
   }
 
@@ -131,7 +146,9 @@ export class TimeLineComponent implements OnInit {
               commentPage: 1,
               showMore: p.commentsCount > 3,
               showDropdown: false,
-              showDeleteConfirm: false // ← كل بوست هيبقى له modal
+              showDeleteConfirm: false, // ← كل بوست هيبقى له modal
+              likesTooltip: '',
+              dislikesTooltip: ''
             };
           })
         ];
@@ -142,7 +159,11 @@ export class TimeLineComponent implements OnInit {
 
         this.posts.forEach(post => {
           if (post.commentsCount > 0) { this.loadInitialComment(post); }
+          this.loadReactionUsers(post);
         });
+
+        this.filterPosts(this.currentSearchKey);
+
       },
       (error) => {
         this.loading = false;
@@ -150,6 +171,40 @@ export class TimeLineComponent implements OnInit {
       }
     );
   }
+
+  loadSinglePost(postId: number): void {
+    this.loading = true;
+    this.postService.getPostById(postId).subscribe({
+      next: (post: any) => {
+        if (post.mediaUrl) { post.mediaUrl = this.serverBase + post.mediaUrl; }
+
+        this.posts = [{
+          ...post,
+          comments: [],
+          commentPage: 1,
+          showMore: post.commentsCount > 3,
+          showDropdown: false,
+          showDeleteConfirm: false,
+          newComment: ''
+        }];
+
+        this.total = 1;
+        this.pageNo = 2;
+
+        if (post.commentsCount > 0) {
+          this.loadInitialComment(this.posts[0]);
+        }
+        this.loadReactionUsers(post);
+        this.loading = false;
+        this.filterPosts(this.currentSearchKey);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.messageService.handleError(err);
+      }
+    });
+  }
+
 
   loadInitialComment(post: Post): void {
     this.commentService.getComments(post.id, 1, 3)
@@ -378,5 +433,44 @@ export class TimeLineComponent implements OnInit {
       error: err => this.messageService.handleError(err)
     });
   }
+
+  loadReactionUsers(post: Post): void {
+    this.reactionService.getReactionUsers(post.id).subscribe({
+      next: (res: any) => {
+        post.likesTooltip = res.likes.join('\n') || 'No likes yet';
+        post.dislikesTooltip = res.dislikes.join('\n') || 'No dislikes yet';
+        post.likesCount = res.likes.length;
+        post.dislikesCount = res.dislikes.length;
+      },
+      error: err => this.messageService.handleError(err)
+    });
+  }
+
+  onSearchKey(key: string): void {
+    this.currentSearchKey = key;
+    this.filterPosts(key);
+  }
+
+  filterPosts(key: string): void {
+    if (!key || !key.trim()) {
+      this.filteredPosts = [...this.posts];
+      return;
+    }
+
+    const lowerKey = key.toLowerCase();
+
+    this.filteredPosts = this.posts.filter(post => {
+      const matchesPostContent = (post.content ?? '').toLowerCase().includes(lowerKey);
+      const matchesPostUser = (post.owner?.username ?? '').toLowerCase().includes(lowerKey);
+
+      const matchesComment = post.comments?.some(c =>
+        (c.content ?? '').toLowerCase().includes(lowerKey) ||
+        (c.owner?.username ?? '').toLowerCase().includes(lowerKey)
+      );
+
+      return matchesPostContent || matchesPostUser || matchesComment;
+    });
+  }
+
 
 }

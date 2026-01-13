@@ -102,6 +102,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public Account getCurrentAccount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        AccountDto accountDto = (AccountDto)authentication.getPrincipal();
+        return accountMapper.toAccount(accountDto);
+    }
+
+    @Override
     public AccountDto getUserById(Long userId) {
 
         Long id = userId != null ? userId : getCurrentUserId();

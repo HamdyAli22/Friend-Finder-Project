@@ -88,11 +88,33 @@ public class InterestServiceImpl implements InterestService {
 
     @Override
     public void deleteInterest(Long id) {
-        Interest existing = interestRepo
-                .findByIdAndDeletedFalse(id)
-                .orElseThrow(() -> new RuntimeException("interest.not.found"));
 
-        existing.setDeleted(true);
-        interestRepo.save(existing);
+        Long accountId = authService.getCurrentUserId();
+
+        if (id != null) {
+
+            Interest existing = interestRepo
+                    .findByIdAndDeletedFalse(id)
+                    .orElseThrow(() -> new RuntimeException("interest.not.found"));
+
+
+            if (!existing.getAboutProfile().getAccount().getId().equals(accountId)) {
+                throw new RuntimeException("account.user.denied");
+            }
+
+            existing.setDeleted(true);
+            interestRepo.save(existing);
+
+        } else {
+            List<Interest> interests =
+                    interestRepo.findByAboutProfileAccountIdAndDeletedFalse(accountId);
+
+            if (interests.isEmpty()) {
+                return;
+            }
+
+            interests.forEach(i -> i.setDeleted(true));
+            interestRepo.saveAll(interests);
+        }
     }
 }

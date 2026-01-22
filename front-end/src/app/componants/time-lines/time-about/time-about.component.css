@@ -1,0 +1,201 @@
+/* ===========================================
+   Interests
+=========================================== */
+.interests-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.interests-list li {
+  padding: 4px 0;
+  font-size: 14px;
+  color: #27aae1;
+}
+
+.interests-list li:last-child {
+  border-bottom: none;
+}
+
+/* ===========================================
+   About Content Blocks
+=========================================== */
+.about-content-block .d-flex.align-items-center.w-100 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* العنوان على الشمال، الأيقونة على اليمين */
+}
+
+.about-content-block h4 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+/* Work Experiences - المسافات الرأسية */
+.about-content-block.work-experiences > .d-flex {
+  margin-bottom: 12px; /* فاصل العنوان عن أول خبرة */
+}
+
+/* الأزرار داخل العنوان */
+.about-content-block button.btn {
+  margin: 0;
+  height: 30px; /* يوازي ارتفاع العنوان */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+
+.about-content-block .ml-auto.d-flex {
+  display: flex;           /* تخلي العناصر في صف */
+  align-items: center;     /* تصطف عموديًا */
+  gap: 6px;                /* مسافة صغيرة بين الأزرار */
+}
+
+
+/* ===========================================
+   Work Experiences Items
+=========================================== */
+.organization {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px; /* فاصل بين كل خبرة والتالية */
+}
+
+.work-info {
+  flex: 1;
+}
+
+.organization .d-flex.align-items-start {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.work-text {
+  flex-grow: 1; /* تاخد كل المساحة ويبقى الزر على أقصى اليمين */
+}
+
+.work-text h5 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.work-text p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.work-info .btn-link {
+  padding: 0;
+  margin-left: 10px; /* ابتعاد عن النص */
+  flex-shrink: 0;    /* لا يتقلص */
+}
+
+/* ===========================================
+   Modals
+=========================================== */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ===========================================
+   إضافات عامة للتنسيق
+=========================================== */
+.about-content-block p {
+  margin-top: 6px;
+}
+
+/* ===========================================
+   Interests
+=========================================== */
+.interests-block > .d-flex {
+  margin-bottom: 10px;
+}
+
+.interests-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.interests-list li {
+  padding: 6px 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.interest-name {
+  color: #27aae1;
+}
+
+.interests-list .btn-link {
+  padding: 0;
+  margin-left: auto;
+}
+
+/* ===========================================
+   Row with actions (edit / add)
+=========================================== */
+.row-with-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.row-with-actions .row-content {
+  flex: 1; /* كل النص */
+}
+
+.row-with-actions .row-actions {
+  margin-left: auto; /* دايمًا أقصى اليمين */
+  display: flex;
+  align-items: center;
+}
+
+/* ===========================================
+   Languages
+=========================================== */
+.languages-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.languages-list li {
+  padding: 6px 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.language-name {
+  color: #27aae1;
+}

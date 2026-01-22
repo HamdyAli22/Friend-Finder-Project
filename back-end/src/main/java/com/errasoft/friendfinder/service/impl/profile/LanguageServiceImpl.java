@@ -90,11 +90,30 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     public void deleteLanguage(Long id) {
-        Language language = languageRepo
-                .findByIdAndDeletedFalse(id)
-                .orElseThrow(() -> new RuntimeException("language.not.found"));
+        Long accountId = authService.getCurrentUserId();
 
-        language.setDeleted(true);
-        languageRepo.save(language);
+        if (id != null) {
+            Language language = languageRepo
+                    .findByIdAndDeletedFalse(id)
+                    .orElseThrow(() -> new RuntimeException("language.not.found"));
+
+            if (!language.getAboutProfile().getAccount().getId().equals(accountId)) {
+                throw new RuntimeException("account.user.denied");
+            }
+
+            language.setDeleted(true);
+            languageRepo.save(language);
+
+        } else {
+            List<Language> languages =
+                    languageRepo.findByAboutProfileAccountIdAndDeletedFalse(accountId);
+
+            if (languages.isEmpty()) {
+                return;
+            }
+
+            languages.forEach(l -> l.setDeleted(true));
+            languageRepo.saveAll(languages);
+        }
     }
 }

@@ -39,7 +39,7 @@ public class InterestController {
 
     // Delete (soft delete) using request param
     @DeleteMapping("/delete-interest")
-    public ResponseEntity<Void> deleteInterest(@RequestParam Long interestId) {
+    public ResponseEntity<Void> deleteInterest(@RequestParam(required = false) Long interestId) {
         interestService.deleteInterest(interestId);
         return ResponseEntity.noContent().build();
     }

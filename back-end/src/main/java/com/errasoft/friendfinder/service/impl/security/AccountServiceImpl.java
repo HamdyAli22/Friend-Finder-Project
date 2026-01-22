@@ -11,6 +11,7 @@ import com.errasoft.friendfinder.model.security.Role;
 import com.errasoft.friendfinder.repo.security.AccountRepo;
 import com.errasoft.friendfinder.repo.security.RoleRepo;
 import com.errasoft.friendfinder.service.security.AccountService;
+import com.errasoft.friendfinder.service.security.AuthService;
 import com.errasoft.friendfinder.utils.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -31,18 +32,21 @@ public class AccountServiceImpl implements AccountService {
     private AccountDetailsMapper detailsMapper;
     private PasswordEncoder passwordEncoder;
     private RoleRepo roleRepo;
+    private AuthService authService;
 
     @Autowired
     public AccountServiceImpl(AccountMapper accountMapper,
                               AccountDetailsMapper detailsMapper,
                               AccountRepo accountRepo,
                               RoleRepo roleRepo,
-                              @Lazy PasswordEncoder passwordEncoder) {
+                              @Lazy PasswordEncoder passwordEncoder,
+                              @Lazy AuthService authService) {
         this.accountMapper = accountMapper;
         this.accountRepo = accountRepo;
         this.roleRepo = roleRepo;
         this.passwordEncoder = passwordEncoder;
         this.detailsMapper = detailsMapper;
+        this.authService = authService;
     }
 
     @Override
@@ -138,10 +142,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDto updateAccountDetails(String email, AccountDetailsDto accountDetailsDto) {
+    public AccountDto updateAccountDetails(AccountDetailsDto accountDetailsDto) {
 
-        Account account = accountRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("account.username.notExists"));
+        Account account = authService.getCurrentAccount();
 
         AccountDetails accountDetails = account.getAccountDetails();
 
@@ -157,6 +160,32 @@ public class AccountServiceImpl implements AccountService {
 
         accountRepo.save(account);
         return accountMapper.toAccountDto(account);
+    }
+
+    @Override
+    public AccountDto updateBasicInfo(AccountDto accountDto) {
+
+        Account account = authService.getCurrentAccount();
+
+        AccountDetails details = account.getAccountDetails();
+        if (details != null) {
+            details.setAccount(account);
+        }
+
+        if (accountDto.getUsername() != null && !accountDto.getUsername().isEmpty()) {
+            account.setUsername(accountDto.getUsername());
+        }
+
+        if (accountDto.getBio() != null) {
+            account.setBio(accountDto.getBio());
+        }
+
+        account.setProfileImageUrl(accountDto.getProfileImageUrl());
+        account.setCoverImageUrl(accountDto.getCoverImageUrl());
+
+
+        Account savedAccount = accountRepo.save(account);
+        return accountMapper.toAccountDto(savedAccount);
     }
 
     private void validateChangePasswordRequest(ChangePassReqVM request, boolean isForgotMode, Account account) {

@@ -39,7 +39,7 @@ public class WorkExperienceController {
 
 
     @DeleteMapping("/delete-work")
-    public ResponseEntity<Void> deleteWorkExperience(@RequestParam Long workExperienceId) {
+    public ResponseEntity<Void> deleteWorkExperience(@RequestParam (required = false) Long workExperienceId) {
         workExperienceService.deleteWorkExperience(workExperienceId);
         return ResponseEntity.noContent().build();
     }

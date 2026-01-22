@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ChangePassReq} from '../model/change-pass-req';
 import {Observable} from 'rxjs';
+import {Account} from '../model/account';
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +29,15 @@ export class AccountService {
     return this.http.put<any>(this.baseUrl + 'toggle-account?id=' + id, {});
   }
 
-  updateAccountDetails(email: string, details: any): Observable<Account> {
+  updateAccountDetails(details: any): Observable<Account> {
     return this.http.put<Account>(
-      this.baseUrl + 'update-details?email=' + email,
-      details
+      this.baseUrl + 'update-details' , details
+    );
+  }
+
+  updateBasicInfo(account: Account): Observable<Account> {
+    return this.http.put<Account>(
+      this.baseUrl + 'update-basic-info', account
     );
   }
 }

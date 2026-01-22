@@ -25,11 +25,18 @@ public class AccountDto implements Serializable {
     @Size(min = 7, message = "size.username")
     private String username;
 
+    @Size(max = 50, message = "size.bio")
+    private String bio;
+
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{7,}$",
             message = "auth.error.password"
     )
     private String password;
+
+    private String profileImageUrl;
+
+    private String coverImageUrl;
 
     private boolean enabled;
 

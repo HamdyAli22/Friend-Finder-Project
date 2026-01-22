@@ -1,6 +1,7 @@
 import {PostService} from '../../../../service/post.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {FileUploadService} from '../../../../service/file-upload.service';
+import {AuthService} from '../../../../service/auth.service';
 
 @Component({
   selector: 'app-publish',
@@ -18,11 +19,17 @@ export class PublishComponent implements OnInit {
   uploading = false;
   previewUrl: string | null = null;
 
+  profileImageUrl?: string;
+  private serverBase = 'http://localhost:8081';
 
   constructor( private postService: PostService,
-               private fileUploadService: FileUploadService) { }
+               private fileUploadService: FileUploadService,
+               private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.profileImage$.subscribe(path => {
+      this.profileImageUrl = path;
+    });
   }
 
   onFileSelected = (event: any, type: 'IMAGE' | 'VIDEO') => {
@@ -108,5 +115,11 @@ export class PublishComponent implements OnInit {
     if (fileInput) { fileInput.value = ''; }
   }
 
+  getMyProfileImageUrl(): string {
+    if (this.profileImageUrl) {
+      return this.serverBase + this.profileImageUrl;
+    }
+    return 'assets/images/users/default-avatar-icon.jpg';
+  }
 
 }

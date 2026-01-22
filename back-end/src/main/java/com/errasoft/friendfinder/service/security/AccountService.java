@@ -13,5 +13,6 @@ public interface AccountService {
     String resetPassword(ChangePassReqVM request);
     List<AccountDto> getAllAccounts();
     String toggleAccountStatus(Long id);
-    AccountDto updateAccountDetails(String email, AccountDetailsDto accountDetailsDto);
+    AccountDto updateAccountDetails(AccountDetailsDto accountDetailsDto);
+    AccountDto updateBasicInfo(AccountDto accountDto);
 }

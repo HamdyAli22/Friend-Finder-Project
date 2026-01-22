@@ -39,4 +39,17 @@ public class AboutProfileController {
         aboutProfileService.deleteAboutProfile(aboutProfileId);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/delete-personal-info")
+    public ResponseEntity<Void> deletePersonalInfo(@RequestParam Long aboutProfileId) {
+        aboutProfileService.deletePersonalInfo(aboutProfileId);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @DeleteMapping("/delete-address")
+    public ResponseEntity<Void> deleteAddress(@RequestParam Long aboutProfileId) {
+        aboutProfileService.deleteAddress(aboutProfileId);
+        return ResponseEntity.noContent().build();
+    }
 }

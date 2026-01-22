@@ -14,7 +14,11 @@
           <div *ngFor="let post of filteredPosts" class="post-content">
 
             <div class="post-date hidden-xs hidden-sm">
-              <h5>{{ post.owner?.username }}</h5>
+              <h5>
+                {{ post.owner?.id === currentUserId
+                ? currentUsername
+                : post.owner?.username }}
+              </h5>
               <p class="text-grey">{{ post.createdDate | timeAgo }}</p>
             </div><!--Post Date End-->
 
@@ -81,9 +85,21 @@
 
               <!-- Comments -->
               <div class="post-comment" *ngFor="let c of post.comments; trackBy: trackByCommentId">
-                <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm"/>
+
+                <img
+                  [src]="c.owner?.id === currentUserId
+                  ? currentProfileImage
+                  : (c.owner?.profileImageUrl
+                  ? serverBase + c.owner.profileImageUrl
+                  : 'assets/images/users/default-avatar-icon.jpg')"
+                  alt=""
+                  class="profile-photo-sm"/>
+
                 <div class="comment-body">
-                  <span class="profile-link">{{ c.owner?.username }}</span>
+
+                  <span class="profile-link">
+                    {{ c.owner?.id === currentUserId ? currentUsername : c.owner?.username }}
+                  </span>
 
                   <p *ngIf="!c.editing">{{ c.content }}</p>
 
@@ -126,7 +142,12 @@
 
               <!-- Add Comment -->
               <div class="post-comment">
-                <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm"/>
+
+                <img
+                  [src]="currentProfileImage || 'assets/images/users/default-avatar-icon.jpg'"
+                  alt=""
+                  class="profile-photo-sm"/>
+
                 <input type="text"
                        class="form-control"
                        [(ngModel)]="post.newComment"

@@ -1,8 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {Account} from '../model/account';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,13 @@ export class AuthService {
 
   baseUrl = 'http://localhost:8081/auth/';
   userLoggedIn = new EventEmitter<string>();
+
+  private profileImageSubject = new BehaviorSubject<string | null>(null);
+  profileImage$ = this.profileImageSubject.asObservable();
+
+  private usernameSubject = new BehaviorSubject<string | null>(null);
+  username$ = this.usernameSubject.asObservable();
+
 
   constructor(private http: HttpClient) { }
 
@@ -31,6 +38,7 @@ export class AuthService {
             localStorage.setItem('roles', response.roles);
             localStorage.setItem('userId', response.userId);
             localStorage.setItem('username', response.username);
+            this.getProfile().subscribe();
             this.userLoggedIn.emit(email);
           }
           return response;
@@ -55,6 +63,21 @@ export class AuthService {
       params = { id: userId };
     }
 
-    return this.http.get<Account>(this.baseUrl + 'user-profile', { params });
+    return this.http
+      .get<Account>(this.baseUrl + 'user-profile', { params })
+      .pipe(
+        tap(profile => {
+          this.profileImageSubject.next(profile.profileImageUrl);
+          this.usernameSubject.next(profile.username);
+        })
+      );
+  }
+
+  setProfileImage(path: string | null) {
+    this.profileImageSubject.next(path);
+  }
+
+  setUsername(username: string | null) {
+    this.usernameSubject.next(username);
   }
 }

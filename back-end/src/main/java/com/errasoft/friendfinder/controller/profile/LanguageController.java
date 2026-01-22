@@ -38,7 +38,7 @@ public class LanguageController {
 
 
     @DeleteMapping("/delete-language")
-    public ResponseEntity<Void> deleteLanguage(@RequestParam Long languageId) {
+    public ResponseEntity<Void> deleteLanguage(@RequestParam(required = false) Long languageId) {
         languageService.deleteLanguage(languageId);
         return ResponseEntity.noContent().build();
     }

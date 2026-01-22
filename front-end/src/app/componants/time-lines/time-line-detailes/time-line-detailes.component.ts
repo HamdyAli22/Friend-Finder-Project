@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Activity} from '../../../../model/activity';
 import {ActivityService} from '../../../../service/activity.service';
+import {AuthService} from '../../../../service/auth.service';
 
 @Component({
   selector: 'app-time-line-detailes',
@@ -12,9 +13,15 @@ export class TimeLineDetailesComponent implements OnInit {
   @Input() username!: string;
   activities: Activity[] = [];
 
-  constructor(private activityService: ActivityService) { }
+  constructor(private activityService: ActivityService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
+
+    this.authService.username$.subscribe(name => {
+      this.username = name ?? undefined;
+    });
+
     this.loadActivities();
   }
 

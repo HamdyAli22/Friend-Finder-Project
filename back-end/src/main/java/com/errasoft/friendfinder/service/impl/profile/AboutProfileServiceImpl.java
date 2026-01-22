@@ -132,4 +132,26 @@ public class AboutProfileServiceImpl implements AboutProfileService {
         profile.setDeleted(true);
         aboutProfileRepository.save(profile);
     }
+
+    @Override
+    public void deletePersonalInfo(Long id) {
+        AboutProfile profile = aboutProfileRepository
+                .findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new RuntimeException("about.profile.not.found"));
+
+        profile.setPersonalInfo(null);
+        aboutProfileRepository.save(profile);
+    }
+
+    @Override
+    public void deleteAddress(Long id) {
+        AboutProfile profile = aboutProfileRepository
+                .findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new RuntimeException("about.profile.not.found"));
+
+        profile.setAddress(null);
+        aboutProfileRepository.save(profile);
+
+    }
+
 }

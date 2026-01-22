@@ -52,11 +52,17 @@ public class AccountController {
         return ResponseEntity.ok(message);
     }
 
+    @PutMapping("/update-basic-info")
+    public ResponseEntity<AccountDto> updateBasicInfo(@RequestBody AccountDto accountDto) {
+        AccountDto updatedAccount = accountService.updateBasicInfo(accountDto);
+        return ResponseEntity.ok(updatedAccount);
+    }
+
     @PutMapping("/update-details")
     public ResponseEntity<AccountDto> updateAccountDetails(
             @RequestParam String email,
             @Valid @RequestBody AccountDetailsDto detailsDto) {
-        AccountDto updatedAccount = accountService.updateAccountDetails(email, detailsDto);
+        AccountDto updatedAccount = accountService.updateAccountDetails(detailsDto);
         return ResponseEntity.ok(updatedAccount);
     }
 

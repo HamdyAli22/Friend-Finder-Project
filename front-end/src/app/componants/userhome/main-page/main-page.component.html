@@ -19,9 +19,16 @@
           </div>
 
           <div class="post-container">
-            <img src="assets/images/users/user-1.jpg"
-                 alt="user"
-                 class="profile-photo-md pull-left"/>
+
+            <img
+              [src]="post.owner?.id === currentUserId
+              ? currentProfileImage
+              : (post.owner?.profileImageUrl
+              ? serverBase + post.owner.profileImageUrl
+              : 'assets/images/users/default-avatar-icon.jpg')"
+              alt="user"
+              class="profile-photo-md pull-left"/>
+
 
             <!-- Three dots for current user -->
             <div class="post-options"  *ngIf="post.owner?.id === currentUserId">
@@ -37,7 +44,11 @@
               <div class="user-info d-flex justify-content-between align-items-center">
                 <div>
                   <h5>
-                    <a class="profile-link">{{ post.owner?.username }}</a>
+                    <a class="profile-link">
+                      {{ post.owner?.id === currentUserId
+                      ? currentUsername
+                      : post.owner?.username }}
+                    </a>
                     <span class="following" *ngIf="post.owner?.following">following</span>
                   </h5>
                   <p class="text-muted">{{ post.createdDate | timeAgo }}</p>
@@ -84,7 +95,15 @@
 
             <!-- Comments -->
             <div class="post-comment" *ngFor="let c of post.comments; trackBy: trackByCommentId">
-              <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm"/>
+              <img
+                [src]="c.owner?.id === currentUserId
+                ? currentProfileImage
+                : (c.owner?.profileImageUrl
+                ? serverBase + c.owner.profileImageUrl
+                : 'assets/images/users/default-avatar-icon.jpg')"
+                alt=""
+                class="profile-photo-sm"/>
+
               <div class="comment-body">
                   <span class="profile-link">{{ c.owner?.username }}</span>
 
@@ -129,7 +148,10 @@
 
             <!-- Add Comment -->
             <div class="post-comment">
-              <img src="assets/images/users/user-1.jpg" alt="" class="profile-photo-sm"/>
+              <img
+                [src]="currentProfileImage || 'assets/images/users/default-avatar-icon.jpg'"
+                alt=""
+                class="profile-photo-sm"/>
               <input type="text"
                      class="form-control"
                      [(ngModel)]="post.newComment"

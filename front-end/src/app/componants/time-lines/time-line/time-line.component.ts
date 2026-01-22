@@ -5,6 +5,7 @@ import {MessageHandlerService} from '../../../../service/message-handler.service
 import {CommentService} from '../../../../service/comment.service';
 import {ReactionService} from '../../../../service/reaction.service';
 import {ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../../../service/auth.service';
 
 @Component({
   selector: 'app-time-line',
@@ -24,6 +25,8 @@ export class TimeLineComponent implements OnInit {
   currentSearchKey = '';
   currentUserId = Number(localStorage.getItem('userId') || 0);
   userId: number;
+  currentUsername?: string;
+  currentProfileImage?: string;
 
   showEditModal = false;
   postBeingEdited?: Post;
@@ -34,9 +37,21 @@ export class TimeLineComponent implements OnInit {
               private messageService: MessageHandlerService,
               private commentService: CommentService,
               private reactionService: ReactionService,
+              private authService: AuthService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.authService.username$.subscribe(name => {
+      this.currentUsername = name ?? undefined;
+    });
+
+    this.authService.profileImage$.subscribe(img => {
+      this.currentProfileImage = img
+        ? this.serverBase + img
+        : 'assets/images/users/default-avatar-icon.jpg';
+    });
+
     this.route.queryParams.subscribe(params => {
       const id = params.userId;
       console.log('params', id);

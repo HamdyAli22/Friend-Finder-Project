@@ -90,12 +90,34 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 
     @Override
     public void deleteWorkExperience(Long id) {
-        WorkExperience existing = workExperienceRepo
-                .findByIdAndDeletedFalse(id)
-                .orElseThrow(() -> new RuntimeException("work.experience.not.found"));
 
-        existing.setDeleted(true);
-        workExperienceRepo.save(existing);
+        Long accountId = authService.getCurrentUserId();
+
+        if(id != null){
+
+            WorkExperience existing = workExperienceRepo
+                    .findByIdAndDeletedFalse(id)
+                    .orElseThrow(() -> new RuntimeException("work.experience.not.found"));
+
+            if (!existing.getAboutProfile().getAccount().getId().equals(accountId)) {
+                throw new RuntimeException("account.user.denied");
+            }
+
+            existing.setDeleted(true);
+            workExperienceRepo.save(existing);
+        } else{
+            List<WorkExperience> experiences =
+                    workExperienceRepo.findByAboutProfileAccountIdAndDeletedFalse(accountId);
+
+            if (experiences.isEmpty()) {
+                return;
+            }
+
+            experiences.forEach(exp -> exp.setDeleted(true));
+            workExperienceRepo.saveAll(experiences);
+        }
+
+
     }
 
     @Override

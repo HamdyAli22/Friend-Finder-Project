@@ -13,4 +13,8 @@ public interface AboutProfileService {
 
     void deleteAboutProfile(Long id);
 
+    void deletePersonalInfo(Long id);
+
+    void deleteAddress(Long id);
+
 }

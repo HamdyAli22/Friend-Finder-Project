@@ -33,6 +33,16 @@ public class Account {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(length = 100)
+    private String bio;
+
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
+
+    @Column(name = "cover_image_url")
+    private String coverImageUrl;
+
     private boolean enabled = true;
 
     @OneToOne(mappedBy = "account",cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -5,6 +5,7 @@ import {MessageHandlerService} from '../../../../service/message-handler.service
 import {CommentService} from '../../../../service/comment.service';
 import {ReactionService} from '../../../../service/reaction.service';
 import {ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../../../service/auth.service';
 
 @Component({
   selector: 'app-main-page',
@@ -23,6 +24,9 @@ export class MainPageComponent implements OnInit {
 
   currentSearchKey = '';
   currentUserId = Number(localStorage.getItem('userId') || 0);
+  currentProfileImage?: string;
+  currentUsername?: string;
+
 
   showEditModal = false;
   postBeingEdited?: Post;
@@ -31,9 +35,21 @@ export class MainPageComponent implements OnInit {
               private messageService: MessageHandlerService,
               private commentService: CommentService,
               private reactionService: ReactionService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
+
+    this.authService.username$.subscribe(name => {
+      this.currentUsername = name ?? undefined;
+    });
+
+    this.authService.profileImage$.subscribe(img => {
+      this.currentProfileImage = img
+        ? this.serverBase + img
+        : 'assets/images/users/default-avatar-icon.jpg';
+    });
+
     this.route.queryParams.subscribe(params => {
       const key = params['q'] || '';
       this.currentSearchKey = key;
@@ -260,9 +276,25 @@ export class MainPageComponent implements OnInit {
     );
   }
 
+  // addPostToTop(post: any): void {
+  //   if (post.mediaUrl) { post.mediaUrl = this.serverBase + post.mediaUrl; }
+  //   this.posts.unshift({
+  //     ...post,
+  //     comments: [],
+  //     commentPage: 1,
+  //     showMore: true,
+  //     newComment: '',
+  //     showDropdown: false,
+  //     showDeleteConfirm: false
+  //   });
+  // }
+
   addPostToTop(post: any): void {
-    if (post.mediaUrl) { post.mediaUrl = this.serverBase + post.mediaUrl; }
-    this.posts.unshift({
+    if (post.mediaUrl) {
+      post.mediaUrl = this.serverBase + post.mediaUrl;
+    }
+
+    const newPost = {
       ...post,
       comments: [],
       commentPage: 1,
@@ -270,8 +302,13 @@ export class MainPageComponent implements OnInit {
       newComment: '',
       showDropdown: false,
       showDeleteConfirm: false
-    });
+    };
+
+    this.posts.unshift(newPost);
+
+    this.filterPosts(this.currentSearchKey);
   }
+
 
   toggleDropdown(post: Post): void {
     this.posts.forEach(p => {

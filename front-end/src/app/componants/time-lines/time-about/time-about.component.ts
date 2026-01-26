@@ -1,4 +1,4 @@
-  import { Component, OnInit } from '@angular/core';
+  import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
   import { ChangeDetectorRef } from '@angular/core';
   import {AboutProfile} from '../../../../model/profile/about-profile';
   import {AboutProfileService} from '../../../../service/about-profile.service';
@@ -51,21 +51,18 @@
     deleteTargetType: 'personalInfo' | 'location' | 'work' | 'interest' | 'language' = 'personalInfo';
     deleteTargetData: any = null;
 
+    isOwner = false;
+
     constructor(private aboutProfileService: AboutProfileService,
                 private route: ActivatedRoute,
                 private cdr: ChangeDetectorRef) { }
 
     ngOnInit(): void {
-
       this.route.queryParams.subscribe(params => {
-        const id = params.userId;
-        console.log('params', id);
-        this.userId = id
-          ? Number(id)
-          : this.currentUserId;
+        this.userId = params['userId'] ? +params['userId'] : this.currentUserId;
+        this.isOwner = this.userId === this.currentUserId;
+        this.loadProfile();
       });
-
-      this.loadProfile();
     }
 
     loadProfile(): void {

@@ -16,6 +16,7 @@ export class FriendsComponent implements OnInit {
   userId!: number;
 
   showBar = true;
+  isOwner = false;
 
   constructor(private friendshipService: FriendshipService,
               private messageService: MessageHandlerService,
@@ -29,12 +30,8 @@ export class FriendsComponent implements OnInit {
     }
 
     this.route.queryParams.subscribe(params => {
-      const id = params.userId;
-
-      this.userId = id
-        ? Number(id)
-        : this.currentUserId;
-
+      this.userId = params['userId'] ? +params['userId'] : this.currentUserId;
+      this.isOwner = this.userId === this.currentUserId;
       this.loadFriends();
     });
   }

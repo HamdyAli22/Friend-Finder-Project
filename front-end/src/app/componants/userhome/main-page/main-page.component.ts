@@ -40,6 +40,8 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.authService.getProfile().subscribe();
+
     this.authService.username$.subscribe(name => {
       this.currentUsername = name ?? undefined;
     });
@@ -427,8 +429,9 @@ export class MainPageComponent implements OnInit {
   likePost(post: Post): void {
     this.reactionService.reactAndUpdateCounts(post.id, 'LIKE').subscribe({
       next: counts => {
-        post.likesCount = counts.likes;
-        post.dislikesCount = counts.dislikes;
+       // post.likesCount = counts.likes;
+       // post.dislikesCount = counts.dislikes;
+        this.loadReactionUsers(post);
       },
       error: err => this.messageService.handleError(err)
     });
@@ -437,8 +440,9 @@ export class MainPageComponent implements OnInit {
   dislikePost(post: Post): void {
     this.reactionService.reactAndUpdateCounts(post.id, 'DISLIKE').subscribe({
       next: counts => {
-        post.likesCount = counts.likes;
-        post.dislikesCount = counts.dislikes;
+       // post.likesCount = counts.likes;
+       // post.dislikesCount = counts.dislikes;
+        this.loadReactionUsers(post);
       },
       error: err => this.messageService.handleError(err)
     });

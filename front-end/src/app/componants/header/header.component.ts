@@ -84,6 +84,17 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  showSearch(): boolean {
+    const url = this.router.url;
 
+    if (url.startsWith('/mainpage')) return true;
+
+    if (url.startsWith('/timeline')) {
+      const subTabs = ['timeline-about', 'timeline-album', 'timeline-videos', 'timeline-friends'];
+      const isSubTab = subTabs.some(tab => url.includes(tab));
+      return !isSubTab;
+    }
+    return false;
+  }
 
 }

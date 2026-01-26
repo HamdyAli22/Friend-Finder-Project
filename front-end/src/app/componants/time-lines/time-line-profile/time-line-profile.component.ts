@@ -30,6 +30,8 @@ export class TimeLineProfileComponent implements OnInit {
   profileImageChanged = false;
   coverImageChanged = false;
 
+  userId!: number;
+
   private serverBase = 'http://localhost:8081';
 
   constructor( private route: ActivatedRoute,
@@ -42,9 +44,9 @@ export class TimeLineProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const userId = params.userId;
-
-      this.loadProfile(userId ? +userId : undefined);
+      const id  = params.userId;
+      this.userId = id ? +id : this.currentUserId;
+      this.loadProfile(this.userId);
     });
   }
 

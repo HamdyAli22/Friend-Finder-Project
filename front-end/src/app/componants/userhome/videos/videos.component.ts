@@ -14,12 +14,13 @@ export class VideosComponent implements OnInit {
 
   videos: UserMedia[] = [];
   loading = false;
-  userId?: number;
 
   showBar = true;
 
   selectedVideo?: UserMedia;
 
+  currentUserId = Number(localStorage.getItem('userId') || 0);
+  userId?: number;
 
   constructor(private mediaService: MediaService,
               private route: ActivatedRoute,
@@ -32,7 +33,7 @@ export class VideosComponent implements OnInit {
     }
 
     this.route.queryParams.subscribe(params => {
-      this.userId = params.userId;
+      this.userId = params['userId'] ? +params['userId'] : this.currentUserId;
       this.loadVideos();
     });
   }

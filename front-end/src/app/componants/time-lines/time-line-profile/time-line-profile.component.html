@@ -101,11 +101,11 @@
       <!-- Profile Menu -->
       <div class="col-md-9">
         <ul class="list-inline profile-menu">
-          <li><a routerLink="/timeline" routerLinkActive="active">Timeline</a></li>
-          <li><a routerLink="/timeline-about" routerLinkActive="active">About</a></li>
-          <li><a routerLink="/timeline-album" routerLinkActive="active">Album</a></li>
-          <li><a routerLink="/timeline-videos" routerLinkActive="active">Videos</a></li>
-          <li><a routerLink="/timeline-friends" routerLinkActive="active">Friends</a></li>
+          <li><a routerLink="/timeline"  [queryParams]="{ userId: profile?.id }" routerLinkActive="active">Timeline</a></li>
+          <li><a routerLink="/timeline-about"   [queryParams]="{ userId: profile?.id }" routerLinkActive="active">About</a></li>
+          <li><a routerLink="/timeline-album"   [queryParams]="{ userId: profile?.id }" routerLinkActive="active">Album</a></li>
+          <li><a routerLink="/timeline-videos"  [queryParams]="{ userId: profile?.id }" routerLinkActive="active">Videos</a></li>
+          <li><a routerLink="/timeline-friends" [queryParams]="{ userId: profile?.id }" routerLinkActive="active">Friends</a></li>
         </ul>
         <ul class="follow-me list-inline">
           <li>{{profile?.friendsCount}} followers</li>

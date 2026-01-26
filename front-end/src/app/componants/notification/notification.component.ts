@@ -59,8 +59,12 @@ export class NotificationComponent implements OnInit {
   }
 
   markAsRead(notification: Notification): void {
+
     if (!notification.read) {
       notification.read = true;
+
+      this.updateUnreadCount();
+
       this.notificationService.markAsRead(notification.id).subscribe({
         next: () => {
           this.updateUnreadCount();

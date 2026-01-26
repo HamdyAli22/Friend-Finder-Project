@@ -14,6 +14,8 @@ export class ImagesComponent implements OnInit {
 
   images: UserMedia[] = [];
   loading = false;
+
+  currentUserId = Number(localStorage.getItem('userId') || 0);
   userId?: number;
 
   showBar = true;
@@ -31,7 +33,7 @@ export class ImagesComponent implements OnInit {
     }
 
     this.route.queryParams.subscribe(params => {
-      this.userId = params.userId;
+      this.userId = params['userId'] ? +params['userId'] : this.currentUserId;
       this.loadImages();
     });
   }

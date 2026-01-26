@@ -20,7 +20,11 @@ export class TimeAgoPipe implements PipeTransform {
     } else if (diff < 172800) {
       return `Yesterday at ${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}`; // امبارح
     } else {
-      return date.toLocaleDateString(); // اكتر من يومين
+      // لو اكتر من يومين → 22 January 2025
+      const day = date.getDate();
+      const month = date.toLocaleString('en-GB', { month: 'long', timeZone: 'UTC' });
+      const year = date.getFullYear();
+      return `${day} ${month} ${year}`;
     }
   }
 }

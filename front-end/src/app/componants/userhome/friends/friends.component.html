@@ -51,7 +51,7 @@
                     <div class="mt-2">
 
                       <button
-                        *ngIf="friend.isFriend"
+                        *ngIf="isOwner && friend.isFriend"
                         class="btn btn-danger btn-xs"
                         (click)="unfriend(friend)"
                       >
@@ -60,7 +60,7 @@
 
 
                       <button
-                        *ngIf="!friend.isFriend && !friend.requestSent"
+                        *ngIf="isOwner && !friend.isFriend && !friend.requestSent"
                         class="btn btn-success btn-xs"
                         (click)="addFriend(friend)"
                       >
@@ -69,7 +69,7 @@
 
 
                       <span
-                        *ngIf="friend.requestSent"
+                        *ngIf="isOwner && friend.requestSent"
                         class="text-muted"
                         style="font-size: 12px;">
                      Request Sent

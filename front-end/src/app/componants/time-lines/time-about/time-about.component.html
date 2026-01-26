@@ -18,7 +18,7 @@
                   Personal Information
                 </h4>
 
-                <div class="ml-auto d-flex align-items-center gap-1">
+                <div class="ml-auto d-flex align-items-center gap-1" *ngIf="isOwner">
                   <button
                     class="btn btn-sm btn-outline-primary"
                     (click)="openPersonalInfoModal()"
@@ -50,7 +50,7 @@
                   Location
                 </h4>
 
-                <div class="ml-auto d-flex gap-1">
+                <div class="ml-auto d-flex gap-1" *ngIf="isOwner">
                   <button
                     class="btn btn-sm btn-outline-primary"
                     (click)="openLocationModal()"
@@ -81,7 +81,7 @@
                   Work Experiences
                 </h4>
 
-                <div class="ml-auto d-flex gap-1">
+                <div class="ml-auto d-flex gap-1" *ngIf="isOwner">
                   <!-- زر إضافة خبرة -->
                   <button class="btn btn-sm btn-outline-primary" (click)="openWorkModal()">
                     <i class="ion ion-plus"></i>
@@ -115,7 +115,7 @@
                       </p>
                     </div>
 
-                    <div class="ml-auto d-flex gap-1">
+                    <div class="ml-auto d-flex gap-1" *ngIf="isOwner">
                       <button
                         class="btn btn-sm btn-link"
                         (click)="openWorkModal(work)">
@@ -145,7 +145,7 @@
                   Interests
                 </h4>
 
-                <div class="ml-auto d-flex gap-1">
+                <div class="ml-auto d-flex gap-1" *ngIf="isOwner">
                    <button
                      class="btn btn-sm btn-outline-primary"
                      (click)="openInterestModal()">
@@ -169,7 +169,7 @@
                     {{ interest.name }}
                   </span>
 
-                  <div class="row-actions">
+                  <div class="row-actions" *ngIf="isOwner">
                     <button
                       class="btn btn-sm btn-link"
                       (click)="openInterestModal(interest)">
@@ -198,7 +198,7 @@
                   Languages
                 </h4>
 
-                <div class="ml-auto d-flex gap-1">
+                <div class="ml-auto d-flex gap-1" *ngIf="isOwner">
                      <button
                      class="btn btn-sm btn-outline-primary"
                      (click)="openLanguageModal()">
@@ -222,7 +222,7 @@
                     {{ lang.name }}
                   </span>
 
-                  <div class="row-actions">
+                  <div class="row-actions" *ngIf="isOwner">
                     <button
                       class="btn btn-sm btn-link"
                       (click)="openLanguageModal(lang)">

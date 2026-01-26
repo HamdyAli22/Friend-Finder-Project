@@ -302,9 +302,25 @@ export class TimeLineComponent implements OnInit {
     );
   }
 
+  // addPostToTop(post: any): void {
+  //   if (post.mediaUrl) { post.mediaUrl = this.serverBase + post.mediaUrl; }
+  //   this.posts.unshift({
+  //     ...post,
+  //     comments: [],
+  //     commentPage: 1,
+  //     showMore: true,
+  //     newComment: '',
+  //     showDropdown: false,
+  //     showDeleteConfirm: false
+  //   });
+  // }
+
   addPostToTop(post: any): void {
-    if (post.mediaUrl) { post.mediaUrl = this.serverBase + post.mediaUrl; }
-    this.posts.unshift({
+    if (post.mediaUrl) {
+      post.mediaUrl = this.serverBase + post.mediaUrl;
+    }
+
+    const newPost = {
       ...post,
       comments: [],
       commentPage: 1,
@@ -312,7 +328,11 @@ export class TimeLineComponent implements OnInit {
       newComment: '',
       showDropdown: false,
       showDeleteConfirm: false
-    });
+    };
+
+    this.posts.unshift(newPost);
+
+    this.filterPosts(this.currentSearchKey);
   }
 
   toggleDropdown(post: Post): void {
@@ -432,8 +452,9 @@ export class TimeLineComponent implements OnInit {
   likePost(post: Post): void {
     this.reactionService.reactAndUpdateCounts(post.id, 'LIKE').subscribe({
       next: counts => {
-        post.likesCount = counts.likes;
-        post.dislikesCount = counts.dislikes;
+        //post.likesCount = counts.likes;
+        //post.dislikesCount = counts.dislikes;
+        this.loadReactionUsers(post);
       },
       error: err => this.messageService.handleError(err)
     });
@@ -442,8 +463,9 @@ export class TimeLineComponent implements OnInit {
   dislikePost(post: Post): void {
     this.reactionService.reactAndUpdateCounts(post.id, 'DISLIKE').subscribe({
       next: counts => {
-        post.likesCount = counts.likes;
-        post.dislikesCount = counts.dislikes;
+        //post.likesCount = counts.likes;
+        //post.dislikesCount = counts.dislikes;
+        this.loadReactionUsers(post);
       },
       error: err => this.messageService.handleError(err)
     });

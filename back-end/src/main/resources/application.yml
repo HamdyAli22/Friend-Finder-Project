@@ -17,10 +17,6 @@ spring:
     show-sql: true
   messages:
     basename: i18n/message
-  data:
-   redis:
-     host: localhost
-     port: 6379
   servlet:
     multipart:
       max-file-size: 200MB

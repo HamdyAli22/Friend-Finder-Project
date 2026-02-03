@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableConfigurationProperties
 @ConfigurationPropertiesScan
-@EnableCaching
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 public class FriendFinderApplication {
 

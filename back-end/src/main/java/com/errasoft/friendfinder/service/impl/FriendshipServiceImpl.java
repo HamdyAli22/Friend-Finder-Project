@@ -51,16 +51,29 @@ public class FriendshipServiceImpl implements FriendshipService {
         Account receiver = accountRepo.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("account.not.found"));
 
-        boolean exists = friendshipRepo.existsActiveFriendship(requesterId, receiverId);
+      //  boolean exists = friendshipRepo.existsActiveFriendship(requesterId, receiverId);
 
-        if (exists) {
-            throw new RuntimeException("friendship.already.exists.or.pending");
+//        if (exists) {
+//            throw new RuntimeException("friendship.already.exists.or.pending");
+//        }
+
+        Friendship friendship = friendshipRepo
+                .findByUsers(requesterId, receiverId)
+                .orElse(null);
+        if (friendship != null) {
+
+            if (friendship.getStatus() == FriendshipStatus.ACCEPTED) {
+                throw new RuntimeException("friendship.already.exists");
+            }
+
+            friendship.setStatus(FriendshipStatus.PENDING);
+
+        } else {
+            friendship = new Friendship();
+            friendship.setRequester(requester);
+            friendship.setReceiver(receiver);
+            friendship.setStatus(FriendshipStatus.PENDING);
         }
-
-        Friendship friendship = new Friendship();
-        friendship.setRequester(requester);
-        friendship.setReceiver(receiver);
-        friendship.setStatus(FriendshipStatus.PENDING);
 
         notificationService.handleNotification(requester,receiver,null,"NEW_REQUEST",null);
         return friendshipMapper.toFriendshipDto(friendshipRepo.save(friendship));
@@ -144,7 +157,14 @@ public class FriendshipServiceImpl implements FriendshipService {
 
                     Long friendshipId = existingRequest != null ? existingRequest.getId() : null;
 
-                    return new FriendResponseVM(a.getId(), friendshipId, a.getUsername());
+                    return new FriendResponseVM(
+                            a.getId(),
+                            friendshipId,
+                            a.getUsername(),
+                            a.getBio(),
+                            a.getProfileImageUrl(),
+                            a.getCoverImageUrl()
+                    );
                 }).toList();
     }
 
@@ -160,7 +180,10 @@ public class FriendshipServiceImpl implements FriendshipService {
                 .map(f -> new FriendResponseVM(
                         f.getRequester().getId(),
                         f.getId(),
-                        f.getRequester().getUsername()
+                        f.getRequester().getUsername(),
+                        f.getRequester().getBio(),
+                        f.getRequester().getProfileImageUrl(),
+                        f.getRequester().getCoverImageUrl()
                 ))
                 .toList();
     }
@@ -178,7 +201,10 @@ public class FriendshipServiceImpl implements FriendshipService {
                     return new FriendResponseVM(
                             receiver.getId(),
                             f.getId(),
-                            receiver.getUsername()
+                            receiver.getUsername(),
+                            receiver.getBio(),
+                            receiver.getProfileImageUrl(),
+                            receiver.getCoverImageUrl()
                     );
                 })
                 .toList();

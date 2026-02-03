@@ -39,14 +39,14 @@
               <div class="friend-card">
 
                 <img
-                  src="assets/images/covers/1.jpg"
+                  [src]="request.coverImageUrl ? serverBase + request.coverImageUrl : 'assets/images/covers/default-cover.jpg'"
                   alt="profile-cover"
                   class="img-responsive cover"
                 />
 
                 <div class="card-info">
                   <img
-                    src="assets/images/users/user-3.jpg"
+                    [src]="request.profileImageUrl ? serverBase + request.profileImageUrl : 'assets/images/users/default-avatar-icon.jpg'"
                     alt="user"
                     class="profile-photo-lg"
                   />
@@ -106,7 +106,7 @@
 
       <div class="request-user-info">
         <img
-          [src]="req.profileImage || 'assets/images/users/user-3.jpg'"
+          [src]="req.profileImageUrl ? serverBase + req.profileImageUrl : 'assets/images/users/default-avatar-icon.jpg'"
           alt="user"
           class="profile-photo-sm">
         <span>{{ req.username }}</span>

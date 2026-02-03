@@ -2,6 +2,7 @@ import {PostService} from '../../../../service/post.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {FileUploadService} from '../../../../service/file-upload.service';
 import {AuthService} from '../../../../service/auth.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-publish',
@@ -17,14 +18,15 @@ export class PublishComponent implements OnInit {
   mediaUrl = '';
   mediaType: 'IMAGE' | 'VIDEO' | 'NONE' = 'NONE';
   uploading = false;
-  previewUrl: string | null = null;
+  previewUrl: SafeUrl | null = null;
 
   profileImageUrl?: string;
   private serverBase = 'http://localhost:8081';
 
   constructor( private postService: PostService,
                private fileUploadService: FileUploadService,
-               private authService: AuthService) { }
+               private authService: AuthService,
+               private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.authService.profileImage$.subscribe(path => {
@@ -40,9 +42,12 @@ export class PublishComponent implements OnInit {
     this.mediaType = type;
 
     // Preview Only
-    const reader = new FileReader();
-    reader.onload = () => this.previewUrl = reader.result as string;
-    reader.readAsDataURL(file);
+    const objectUrl = URL.createObjectURL(file);
+    this.previewUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+
+    // const reader = new FileReader();
+    // reader.onload = () => this.previewUrl = reader.result as string;
+    // reader.readAsDataURL(file);
   }
 
 

@@ -18,7 +18,7 @@ export class TimeLineProfileComponent implements OnInit {
   currentUserId = +localStorage.getItem('userId');
   isFriend = false;
   requestSent = false;
-  pendingFriendshipId?: number;
+  friendshipId?: number;
   editUsername = false;
   editBio = false;
   previewProfileImage?: SafeUrl;
@@ -61,12 +61,21 @@ export class TimeLineProfileComponent implements OnInit {
     if (this.profile.id === this.currentUserId) {
       this.isFriend = false;
       this.requestSent = false;
-      this.pendingFriendshipId = undefined;
+      this.friendshipId = undefined;
       return;
     }
 
     this.friendshipService.getMyFriends().subscribe(friends => {
-      this.isFriend = friends.some(f => f.id === this.profile.id);
+
+      const friend = friends.find(f => f.id === this.profile.id);
+
+      if (friend) {
+        this.isFriend = true;
+        this.requestSent = false;
+        this.friendshipId = friend.friendId; // ✅
+      } else {
+        this.isFriend = false;
+      }
     });
 
     this.friendshipService.getPendingSentRequests().subscribe(requests => {
@@ -74,11 +83,13 @@ export class TimeLineProfileComponent implements OnInit {
       const pending = requests.find(r => r.id === this.profile.id);
       if (pending) {
         this.requestSent = true;
-        this.pendingFriendshipId = pending.friendId;
-      } else {
-        this.requestSent = false;
-        this.pendingFriendshipId = undefined;
+        this.isFriend = false;
+        this.friendshipId = pending.friendId;
       }
+      // } else {
+      //   this.requestSent = false;
+      //   this.friendshipId = undefined;
+      // }
     });
   }
 
@@ -91,12 +102,24 @@ export class TimeLineProfileComponent implements OnInit {
   }
 
   cancelRequest(): void {
-    if (!this.pendingFriendshipId) { return; }
-    this.friendshipService.cancelFriendRequest(this.pendingFriendshipId).subscribe(() => {
+    if (!this.friendshipId) { return; }
+    this.friendshipService.cancelFriendRequest(this.friendshipId).subscribe(() => {
       this.requestSent = false;
-      this.pendingFriendshipId = undefined;
+      this.friendshipId = undefined;
     });
   }
+
+  unfriend(): void {
+    if (!this.friendshipId) return;
+
+    this.friendshipService.cancelFriendRequest(this.friendshipId).subscribe(() => {
+      this.isFriend = false;
+      this.requestSent = false;
+      this.friendshipId = undefined;
+      this.loadProfile(this.profile.id);
+    });
+  }
+
 
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: Event) {

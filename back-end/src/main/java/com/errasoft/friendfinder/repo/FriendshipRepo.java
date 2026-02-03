@@ -76,4 +76,14 @@ public interface FriendshipRepo extends JpaRepository<Friendship, Long> {
     int countAcceptedFriendships (Long accountId);
 
 
+
+    @Query("""
+    select f from Friendship f
+    where 
+      (f.requester.id = :u1 and f.receiver.id = :u2)
+       or
+      (f.requester.id = :u2 and f.receiver.id = :u1)
+     """)
+    Optional<Friendship> findByUsers(Long u1, Long u2);
+
 }

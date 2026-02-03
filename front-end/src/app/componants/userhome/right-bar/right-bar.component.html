@@ -2,8 +2,10 @@
   <div class="suggestions" id="sticky-sidebar">
     <h4 class="grey">Who to Follow</h4>
 
-    <div *ngFor="let user of suggestions" class="follow-user">
-      <img src="assets/images/users/user-11.jpg" alt="" class="profile-photo-sm pull-left" />
+    <div *ngFor="let user of filteredSuggestions" class="follow-user">
+      <img [src]="user.profileImageUrl ? serverBase + user.profileImageUrl : 'assets/images/users/default-avatar-icon.jpg'"
+           alt=""
+           class="profile-photo-sm pull-left" />
       <div>
 
         <h5>

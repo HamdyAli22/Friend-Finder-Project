@@ -12,6 +12,8 @@ export class FriendRequestsComponent implements OnInit {
   sentRequests: any[] = [];
   showSentPopup = false;
 
+  serverBase = 'http://localhost:8081';
+
   constructor(private friendshipService: FriendshipService) { }
 
   ngOnInit(): void {

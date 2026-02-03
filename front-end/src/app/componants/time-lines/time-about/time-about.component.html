@@ -10,6 +10,21 @@
 
           <div class="about-profile" *ngIf="!loading">
 
+            <!-- ✅ Notification Messages -->
+            <div *ngIf="messageEn || messageAr" class="alert alert-info custom-alert mb-4">
+              <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                (click)="clearMessage()"
+              ></button>
+
+              <div>
+                <strong *ngIf="messageEn">{{ messageEn }}</strong><br />
+                <span *ngIf="messageAr" class="text-muted small">{{ messageAr }}</span>
+              </div>
+            </div>
+
             <!-- Personal Information -->
             <div class="about-content-block">
               <div class="d-flex align-items-center w-100">

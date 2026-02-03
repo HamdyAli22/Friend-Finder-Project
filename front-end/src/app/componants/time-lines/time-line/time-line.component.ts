@@ -209,7 +209,7 @@ export class TimeLineComponent implements OnInit {
         if (post.commentsCount > 0) {
           this.loadInitialComment(this.posts[0]);
         }
-        this.loadReactionUsers(post);
+        this.loadReactionUsers(this.posts[0]);
         this.loading = false;
         this.filterPosts(this.currentSearchKey);
       },

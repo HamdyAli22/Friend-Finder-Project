@@ -3,6 +3,7 @@
   import {AboutProfile} from '../../../../model/profile/about-profile';
   import {AboutProfileService} from '../../../../service/about-profile.service';
   import {ActivatedRoute} from '@angular/router';
+  import {MessageHandlerService} from '../../../../service/message-handler.service';
 
   @Component({
     selector: 'app-time-about',
@@ -55,7 +56,8 @@
 
     constructor(private aboutProfileService: AboutProfileService,
                 private route: ActivatedRoute,
-                private cdr: ChangeDetectorRef) { }
+                private cdr: ChangeDetectorRef,
+                private messageService: MessageHandlerService) { }
 
     ngOnInit(): void {
       this.route.queryParams.subscribe(params => {
@@ -63,6 +65,18 @@
         this.isOwner = this.userId === this.currentUserId;
         this.loadProfile();
       });
+    }
+
+    get messageEn(): string {
+      return this.messageService.messageEn;
+    }
+
+    get messageAr(): string {
+      return this.messageService.messageAr;
+    }
+
+    clearMessage = () => {
+      this.messageService.clearMessage();
     }
 
     loadProfile(): void {
@@ -120,7 +134,9 @@
             this.aboutProfile.personalInfo = res.personalInfo;
             this.personalInfoModalOpen = false;
           },
-          error: (err) => console.error('Error updating Personal Info:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
       } else {
         // إنشاء بيانات جديدة
@@ -134,10 +150,15 @@
         };
         this.aboutProfileService.createProfile(payload).subscribe({
           next: (res) => {
-            this.aboutProfile.personalInfo = res.personalInfo;
+            this.aboutProfile = {
+              ...this.aboutProfile,
+              ...res
+            };
             this.personalInfoModalOpen = false;
           },
-          error: (err) => console.error('Error creating Personal Info:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
       }
     }
@@ -155,7 +176,7 @@
     saveLocation(): void {
       const trimmedValue = this.locationTemp.trim();
       if (trimmedValue === '') return;
-
+      console.log(this.aboutProfile.id);
       if (this.aboutProfile.id) {
         // Update
         const payload = {
@@ -168,7 +189,9 @@
             this.aboutProfile.address = res.address;
             this.locationModalOpen = false;
           },
-          error: (err) => console.error('Error updating Location:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
 
       } else {
@@ -187,7 +210,9 @@
             this.aboutProfile.address = res.address;
             this.locationModalOpen = false;
           },
-          error: (err) => console.error('Error creating Location:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
       }
     }
@@ -236,7 +261,9 @@
             this.aboutProfile.workExperiences[index] = res;
             this.closeWorkModal();
           },
-          error: err => console.error('Error updating work:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
 
       } else {
@@ -255,7 +282,9 @@
             this.aboutProfile.workExperiences.push(res);
             this.closeWorkModal();
           },
-          error: err => console.error('Error creating work:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
       }
     }
@@ -298,7 +327,9 @@
             this.aboutProfile.interests[index] = res;
             this.closeInterestModal();
           },
-          error: err => console.error('Error updating interest:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
 
       } else {
@@ -313,7 +344,9 @@
             this.aboutProfile.interests.push(res);
             this.closeInterestModal();
           },
-          error: err => console.error('Error creating interest:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
       }
     }
@@ -354,7 +387,9 @@
             this.aboutProfile.languages[index] = res;
             this.closeLanguageModal();
           },
-          error: err => console.error('Error updating language:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
 
       } else {
@@ -369,7 +404,9 @@
             this.aboutProfile.languages.push(res);
             this.closeLanguageModal();
           },
-          error: err => console.error('Error creating language:', err)
+          error: (error) => {
+            this.messageService.handleError(error);
+          }
         });
       }
     }
@@ -476,8 +513,4 @@
           break;
       }
     }
-
-
-
-
   }

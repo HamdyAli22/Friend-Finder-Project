@@ -5,9 +5,22 @@
   border-radius: 10px;
 }
 
-.post-input {
+/* ⭐ خلي الصف كله aligned مع بعضه */
+.create-post .row {
   display: flex;
   align-items: flex-start;
+}
+
+.create-post .col-md-7 {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.post-input {
+  display: flex;
+  align-items: center; /* بدل flex-start */
+  height: 45px;
 }
 
 .profile-photo-md {
@@ -20,10 +33,16 @@
 textarea.form-control {
   resize: none;
   border-radius: 10px;
+  min-height: 45px; /* نفس ارتفاع الصورة */
 }
 
 .tools {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  height: 45px;
+  transform: translateY(-15px);
 }
 
 .publishing-tools {
@@ -31,6 +50,7 @@ textarea.form-control {
   padding: 0;
   list-style: none;
   display: inline-flex;
+  align-items: center;
 }
 
 .publishing-tools li {
@@ -74,11 +94,6 @@ textarea.form-control {
   border-radius: 10px;
 }
 
-.preview-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
 .remove-btn {
   position: absolute;
   top: 6px;
@@ -100,4 +115,3 @@ textarea.form-control {
   background: #e60000;
   transform: scale(1.08);
 }
-

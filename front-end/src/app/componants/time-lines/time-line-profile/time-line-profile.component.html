@@ -115,8 +115,10 @@
           <li *ngIf="requestSent && profile?.id !== currentUserId">
             <button class="btn-cancel-request" (click)="cancelRequest()">Cancel Request</button>
           </li>
-          <li *ngIf="profile?.id !== currentUserId && isFriend" class="text-success" style="font-size:12px;">
-            My Friend
+          <li *ngIf="profile?.id !== currentUserId && isFriend">
+            <button class="btn-unfriend" (click)="unfriend()">
+              Unfriend
+            </button>
           </li>
         </ul>
       </div>

@@ -97,4 +97,10 @@ export class HeaderComponent implements OnInit {
     return false;
   }
 
+  reloadMainPage(): void {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/mainpage']);
+    });
+  }
+
 }

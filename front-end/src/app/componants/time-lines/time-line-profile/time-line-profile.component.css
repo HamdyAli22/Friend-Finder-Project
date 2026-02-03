@@ -225,3 +225,12 @@
   top:-3px;
   cursor: pointer;
 }
+
+.btn-unfriend {
+  background: #eee;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+}

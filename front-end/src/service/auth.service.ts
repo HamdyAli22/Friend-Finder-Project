@@ -18,6 +18,8 @@ export class AuthService {
   private usernameSubject = new BehaviorSubject<string | null>(null);
   username$ = this.usernameSubject.asObservable();
 
+  private coverImageSubject = new BehaviorSubject<string | null>(null);
+  coverImage$ = this.coverImageSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -68,6 +70,7 @@ export class AuthService {
       .pipe(
         tap(profile => {
           this.profileImageSubject.next(profile.profileImageUrl);
+          this.coverImageSubject.next(profile.coverImageUrl);
           this.usernameSubject.next(profile.username);
         })
       );
@@ -79,5 +82,9 @@ export class AuthService {
 
   setUsername(username: string | null) {
     this.usernameSubject.next(username);
+  }
+
+  setCoverImage(path: string | null) {
+    this.coverImageSubject.next(path);
   }
 }

@@ -93,7 +93,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     //RouterModule.forRoot(routes),
-    RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' }),
+    RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' , scrollPositionRestoration: 'top'}),
     FormsModule,
     HttpClientModule,
     SharedModule,

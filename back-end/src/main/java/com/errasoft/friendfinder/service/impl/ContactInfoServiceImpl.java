@@ -53,10 +53,6 @@ public class ContactInfoServiceImpl implements ContactInfoService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AccountDto accountDto = (AccountDto)authentication.getPrincipal();
 
-        if (accountDto.getAccountDetails() == null) {
-            throw new RuntimeException("account.details.not.found");
-        }
-
         Account account = accountMapper.toAccount(accountDto);
 
         contactInfo.setAccount(account);

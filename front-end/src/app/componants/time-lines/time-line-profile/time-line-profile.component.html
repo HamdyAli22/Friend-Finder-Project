@@ -72,7 +72,9 @@
             <div class="editable-field">
               <h3 *ngIf="!editUsername">{{ profile?.username }}</h3>
               <input *ngIf="editUsername" [(ngModel)]="profile.username" type="text" class="edit-input"/>
-              <span class="edit-hover-btn" (click)="toggleEdit('username')">
+              <span class="edit-hover-btn"
+                    *ngIf="profile?.id === currentUserId"
+                    (click)="toggleEdit('username')">
                 <i class="fa fa-pencil-alt"></i>
               </span>
               <div *ngIf="editUsername" class="edit-actions">
@@ -85,7 +87,9 @@
             <div class="editable-field" style="margin-top:10px;">
               <p class="text-muted" *ngIf="!editBio">{{ profile?.bio || 'No bio yet' }}</p>
               <textarea *ngIf="editBio" [(ngModel)]="profile.bio" rows="3" class="edit-textarea"></textarea>
-              <span class="edit-hover-btn" (click)="toggleEdit('bio')">
+              <span class="edit-hover-btn"
+                    *ngIf="profile?.id === currentUserId"
+                    (click)="toggleEdit('bio')">
                 <i class="fa fa-pencil-alt"></i>
               </span>
               <div *ngIf="editBio" class="edit-actions">

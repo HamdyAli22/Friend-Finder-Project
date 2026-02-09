@@ -43,14 +43,22 @@
             <div class="post-detail">
               <div class="user-info d-flex justify-content-between align-items-center">
                 <div>
+
                   <h5>
-                    <a class="profile-link">
+                    <a
+                      [routerLink]="['/timeline']"
+                      [queryParams]="post.owner?.id !== currentUserId ? { userId: post.owner?.id } : null"
+                      class="profile-link">
                       {{ post.owner?.id === currentUserId
                       ? currentUsername
                       : post.owner?.username }}
                     </a>
-                    <span class="following" *ngIf="post.owner?.following">following</span>
+
+                    <span class="following" *ngIf="post.owner?.following">
+                      following
+                    </span>
                   </h5>
+
                   <p class="text-muted">{{ post.createdDate | timeAgo }}</p>
                 </div>
               </div>
@@ -105,7 +113,16 @@
                 class="profile-photo-sm"/>
 
               <div class="comment-body">
-                  <span class="profile-link">{{ c.owner?.username }}</span>
+                <a
+                  [routerLink]="['/timeline']"
+                  [queryParams]="c.owner?.id !== currentUserId ? { userId: c.owner?.id } : null"
+                  class="profile-link">
+                  {{ c.owner?.username }}
+                </a>
+
+                <span class="comment-time text-muted">
+                      {{ c.createdDate | timeAgo }}
+                </span>
 
                 <p *ngIf="!c.editing">{{ c.content }}</p>
 
@@ -116,11 +133,11 @@
                        (keyup.enter)="saveCommentEdit(c, post)" />
               </div>
 
-              <div class="comment-options" *ngIf="c.owner?.id === currentUserId">
+              <div class="comment-options"  *ngIf="c.owner?.id === currentUserId || post.owner?.id === currentUserId">
                 <button class="dots-btn"  *ngIf="!c.editing" id="comment-dots-btn-{{ c.id }}" (click)="toggleCommentDropdown(c, post)">⋯</button>
 
                 <ul class="dropdown" id="comment-dropdown-{{ c.id }}" *ngIf="c.showDropdown">
-                  <li (click)="startEditComment(c, post)">Edit</li>
+                  <li *ngIf="c.owner?.id === currentUserId" (click)="startEditComment(c, post)">Edit</li>
                   <li (click)="deleteComment(c, post)">Delete</li>
                 </ul>
               </div>
@@ -132,13 +149,17 @@
 
             </div>
 
+            <!--
             <div *ngIf="post.showMore && post.commentsCount > 3" class="text-center">
               <button class="btn btn-link" (click)="loadMoreComments(post)">View more comments</button>
             </div>
+            -->
 
+            <!--
             <div *ngIf="!post.showMore && post.commentsCount > 3 && post.comments.length === post.commentsCount" class="text-center">
               <button class="btn btn-link" (click)="showLessComments(post)">View less comments</button>
             </div>
+            -->
 
             <div *ngIf="post.commentsCount === 0" class="text-muted text-center">
               No comments yet

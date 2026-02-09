@@ -46,9 +46,10 @@ export class SignUpComponent implements OnInit {
     this.authService.createAccount(name, email, password).subscribe(
       response => {
         localStorage.setItem('token', response.token);
-        localStorage.setItem('userName', response.username);
+        localStorage.setItem('username', response.username);
         localStorage.setItem('roles', response.roles);
         localStorage.setItem('userId', response.userId);
+        localStorage.setItem('profileImageUrl', response.profileImageUrl);
         this.router.navigateByUrl('/mainpage').then(() => {
           window.location.reload();
         });

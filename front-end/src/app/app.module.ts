@@ -36,6 +36,7 @@ import { TimeVideosComponent } from './componants/time-lines/time-videos/time-vi
 import { NotificationComponent } from './componants/notification/notification.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SentMessagesComponent } from './componants/userhome/sent-messages/sent-messages.component';
+import { ChangePasswordComponent } from './componants/userhome/change-password/change-password.component';
 
 
 // http://localhost:4200
@@ -56,6 +57,7 @@ const routes: Routes = [
   {path: 'images', component: ImagesComponent , canActivate: [AuthGuard]},
   {path: 'videos', component: VideosComponent , canActivate: [AuthGuard]},
   { path: 'sent-messages', component: SentMessagesComponent, canActivate: [AuthGuard] },
+  { path: 'change-password', component: ChangePasswordComponent },
   { path: '', redirectTo: '/mainpage', pathMatch: 'full' },
   { path: '**', redirectTo: '/mainpage', pathMatch: 'full' },
 ];
@@ -88,7 +90,8 @@ const routes: Routes = [
     VideosComponent,
     TimeVideosComponent,
     NotificationComponent,
-    SentMessagesComponent
+    SentMessagesComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

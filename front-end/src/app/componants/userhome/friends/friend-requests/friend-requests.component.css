@@ -13,16 +13,16 @@
 .header-links {
   display: flex;
   align-items: center;
-  gap: 12px; /* مسافة أكبر بين الروابط */
+  gap: 12px;
 }
 
 .separator {
   color: #999;
-  font-size: 16px; /* تكبير قليلاً */
+  font-size: 16px;
 }
 
 .friend-requests-link {
-  font-size: 15px; /* تكبير قليلاً */
+  font-size: 15px;
   font-weight: 500;
   color: #337ab7;
   cursor: pointer;
@@ -45,7 +45,7 @@
 /* Popup modal */
 .sent-requests-modal {
   background: #fff;
-  width: 500px; /* أكبر Popup */
+  width: 500px;
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 6px;
@@ -61,15 +61,15 @@
 }
 
 .close-btn {
-  font-size: 28px; /* أكبر وأكثر وضوحًا */
+  font-size: 28px;
   font-weight: bold;
   cursor: pointer;
-  color: #337ab7; /* لون أزرق واضح */
+  color: #337ab7;
   transition: color 0.2s;
 }
 
 .close-btn:hover {
-  color: #0056b3; /* أزرق أغمق عند hover */
+  color: #0056b3;
 }
 
 /* Sent request item */
@@ -81,7 +81,6 @@
   border-bottom: 1px solid #eee;
 }
 
-/* User info inside sent request */
 .request-user-info {
   display: flex;
   align-items: center;
@@ -96,6 +95,39 @@
 }
 
 .request-user-info span {
-  font-size: 16px; /* تكبير اسم اليوزر */
+  font-size: 16px;
   font-weight: 500;
+}
+
+/* ==========FRIEND REQUEST CARDS =========== */
+.friend-card {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.friend-card .cover {
+  height: 140px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.friend-card .card-info {
+  flex: 1;
+  padding: 15px;
+}
+
+.friend-card .friend-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.friend-card h5 {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
 }

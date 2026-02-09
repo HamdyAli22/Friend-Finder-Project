@@ -248,4 +248,13 @@
   text-decoration: underline;
 }
 
+.publish-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
 
+.comment-time {
+  font-size: 13px;
+  margin-left: 6px;
+  font-weight: 500;
+}

@@ -3,120 +3,106 @@
     <div class="row">
 
       <app-left-bar *ngIf="showBar"></app-left-bar>
+
       <div class="col-md-7">
 
+        <!-- Friends Header -->
         <div class="friends-header">
           <h3>Friends</h3>
-
           <a *ngIf="showBar"
              routerLink="/friend-requests"
-             class="friend-requests-link"
-          >
+             class="friend-requests-link">
             Friend Requests
           </a>
         </div>
 
-
+        <!-- No friends message -->
         <div *ngIf="friends.length === 0" class="text-muted">
           No friends yet.
         </div>
 
-        <!-- Friend List ================================================= -->
         <div class="friend-list">
           <div class="row">
+
             <div class="col-md-6 col-sm-6" *ngFor="let friend of friends">
               <div class="friend-card">
-                <img [src]="friend.coverImageUrl ? serverBase + friend.coverImageUrl : 'assets/images/covers/default-cover.jpg'"
-                     alt="profile-cover"
-                     class="img-responsive cover" />
-                <div class="card-info">
-                  <img
-                    [src]="friend.profileImageUrl ? serverBase + friend.profileImageUrl : 'assets/images/users/default-avatar-icon.jpg'"
-                    alt="user"
-                    class="profile-photo-lg"
-                  />
-                  <div class="friend-info">
-                    <span *ngIf="friend.isFriend" class="pull-right text-green">My Friend</span>
-                    <h5>
 
+                <!-- Cover -->
+                <img
+                  [src]="friend.coverImageUrl ? serverBase + friend.coverImageUrl : 'assets/images/covers/default-cover.jpg'"
+                  class="cover"
+                  alt="cover"
+                />
+
+                <!-- Body -->
+                <div class="card-body">
+
+                  <!-- Left profile -->
+                  <div class="profile-side">
+                    <img
+                      [src]="friend.profileImageUrl ? serverBase + friend.profileImageUrl : 'assets/images/users/default-avatar-icon.jpg'"
+                      class="profile-photo-lg"
+                      alt="profile"
+                    />
+
+                    <h5>
                       <a
                         [routerLink]="['/timeline']"
                         [queryParams]="{ userId: friend.id }"
-                        class="profile-link"
-                      >
+                        class="profile-link">
                         {{ friend.username }}
                       </a>
-
                     </h5>
-                    <p>{{ friend.bio || '' }}</p>
 
-                    <div class="mt-2">
+                    <p class="bio">{{ friend.bio || '' }}</p>
 
-                      <button
-                        *ngIf="isOwner && friend.isFriend"
-                        class="btn btn-danger btn-xs"
-                        (click)="unfriend(friend)"
-                      >
-                        Unfriend
-                      </button>
-
-
-                      <button
-                        *ngIf="isOwner && !friend.isFriend && !friend.requestSent"
-                        class="btn btn-success btn-xs"
-                        (click)="addFriend(friend)"
-                      >
-                        Add Friend
-                      </button>
-
-                      <button
-                        *ngIf="isOwner && friend.requestSent"
-                        class="btn btn-warning btn-xs"
-                        (click)="cancelRequest(friend)">
-                        Cancel Request
-                      </button>
-
-                      <ng-container *ngIf="!isOwner">
-                        <button
-                          *ngIf="friend.isFriend"
-                          class="btn btn-danger btn-xs"
-                          (click)="unfriend(friend)">
-                          Unfriend
-                        </button>
-
-                        <button
-                          *ngIf="!friend.isFriend && friend.requestSent"
-                          class="btn btn-warning btn-xs"
-                          (click)="cancelRequest(friend)">
-                          Cancel Request
-                        </button>
-
+                    <!-- Actions + My Friend badge -->
+                    <div class="actions-wrapper" *ngIf="friend.id !== currentUserId">
+                      <!-- Left actions -->
+                      <div class="actions-left">
                         <button
                           *ngIf="!friend.isFriend && !friend.requestSent"
                           class="btn btn-success btn-xs"
                           (click)="addFriend(friend)">
                           Add Friend
                         </button>
-                      </ng-container>
-                      <!--                      <span-->
-                      <!--                        *ngIf="isOwner && friend.requestSent"-->
-                      <!--                        class="text-muted"-->
-                      <!--                        style="font-size: 12px;">-->
-                      <!--                     Request Sent-->
-                      <!--                     </span>-->
 
+                        <button
+                          *ngIf="friend.requestSent"
+                          class="btn btn-warning btn-xs"
+                          (click)="cancelRequest(friend)">
+                          Cancel Request
+                        </button>
+
+                        <button
+                          *ngIf="friend.isFriend"
+                          class="btn btn-danger btn-xs"
+                          (click)="unfriend(friend)">
+                          Unfriend
+                        </button>
+                      </div>
+
+                      <!-- My Friend badge أقصى اليمين -->
+                      <div class="actions-right">
+                        <span *ngIf="friend.isFriend" class="friend-badge">
+                          My Friend
+                        </span>
+                      </div>
                     </div>
 
-
                   </div>
+
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 
       </div>
+
       <app-right-bar *ngIf="showBar"></app-right-bar>
+
     </div>
   </div>
 </div>

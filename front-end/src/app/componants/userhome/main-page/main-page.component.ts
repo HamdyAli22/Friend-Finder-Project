@@ -137,7 +137,7 @@ export class MainPageComponent implements OnInit {
         this.posts = [
           ...this.posts,
           ...response.posts.map((p: any) => {
-            if (p.mediaUrl) { p.mediaUrl = this.serverBase + p.mediaUrl; }
+            if (p.mediaUrl) { p.mediaUrl = this.fixMediaUrl(p.mediaUrl); }
             return {
               ...p,
               comments: [],
@@ -198,7 +198,14 @@ export class MainPageComponent implements OnInit {
   }
 
   loadInitialComment(post: Post): void {
-    this.commentService.getComments(post.id, 1, 3)
+
+    if (post.commentsCount === 0) {
+      post.comments = [];
+      return;
+    }
+
+   // this.commentService.getComments(post.id, 1, 3)
+    this.commentService.getComments(post.id, 1, post.commentsCount)
       .subscribe(res => {
 
         post.comments = res.comments.map(c => ({
@@ -293,7 +300,7 @@ export class MainPageComponent implements OnInit {
 
   addPostToTop(post: any): void {
     if (post.mediaUrl) {
-      post.mediaUrl = this.serverBase + post.mediaUrl;
+      post.mediaUrl = this.fixMediaUrl(post.mediaUrl);
     }
 
     const newPost = {
@@ -328,7 +335,10 @@ export class MainPageComponent implements OnInit {
     post.showDropdown = false;      // أقفل الـ dropdown بتاع البوست نفسه
 
     this.postService.deletePost(post.id).subscribe({
-      next: () => this.posts = this.posts.filter(p => p.id !== post.id),
+      next: () => {
+        this.posts = this.posts.filter(p => p.id !== post.id);
+        this.filterPosts(this.currentSearchKey);
+      },
       error: (err) => this.messageService.handleError(err)
     });
   }
@@ -352,9 +362,12 @@ export class MainPageComponent implements OnInit {
     const index = this.posts.findIndex(p => p.id === updatedPost.id);
     if (index !== -1) {
       if (updatedPost.mediaUrl) {
-        updatedPost.mediaUrl = this.serverBase + updatedPost.mediaUrl;
+        updatedPost.mediaUrl = this.fixMediaUrl(updatedPost.mediaUrl);
       }
       this.posts[index] = { ...this.posts[index], ...updatedPost };
+      this.posts = [...this.posts];
+      this.filterPosts(this.currentSearchKey);
+      this.posts[index].showDropdown = false;
     }
     this.showEditModal = false;
     this.postBeingEdited = undefined;
@@ -460,5 +473,10 @@ export class MainPageComponent implements OnInit {
     });
   }
 
+  private fixMediaUrl(url?: string): string | undefined {
+    if (!url) return undefined;
+    if (url.startsWith('http')) return url; // already full
+    return this.serverBase + url;
+  }
 
 }

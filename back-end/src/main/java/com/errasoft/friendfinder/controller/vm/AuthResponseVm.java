@@ -18,6 +18,7 @@ public class AuthResponseVm {
     private String username;
     private String email;
     private String token;
+    private String profileImageUrl;
     @JsonProperty("roles")
     private List<String> userRoles;
 }

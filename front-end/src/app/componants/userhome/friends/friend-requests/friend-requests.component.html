@@ -68,7 +68,11 @@
                     </div>
 
                     <h5>
-                      <a href="#" class="profile-link">
+                      <a
+                        [routerLink]="['/timeline']"
+                        [queryParams]="{ userId: request.id }"
+                        class="profile-link"
+                      >
                         {{ request.username }}
                       </a>
                     </h5>

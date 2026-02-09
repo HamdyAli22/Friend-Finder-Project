@@ -1,63 +1,140 @@
+/* ===== Friends Header ===== */
 .friends-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* العنوان على الشمال، اللينك على اليمين */
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .friends-header h3 {
   margin: 0;
+  font-size: 18px;
 }
 
 .friend-requests-link {
-  font-size: 13px;
-  font-weight: 500;
-  color: #337ab7;
-  cursor: pointer;
+  font-size: 15px;
+  color: #007bff;
+  text-decoration: none;
 }
 
-/* ================= Friend List ================= */
+.friend-requests-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Grid ===== */
 .friend-list .row {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px; /* مسافة بين الكروت */
+  margin: -8px; /* لإلغاء تأثير padding من الأعمدة */
 }
 
-/* خلي الأعمدة inline بحيث الكروت جنب بعض */
 .col-md-6.col-sm-6 {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 calc(50% - 15px); /* نص المساحة تقريبًا لكل كارت مع gap */
+  flex: 0 0 50%; /* كل كارت ياخد نص العرض */
+  max-width: 50%;
+  padding: 8px; /* الفجوة بين الكروت */
+  box-sizing: border-box;
 }
 
-/* على الشاشات الكبيرة 3 كروت في الصف */
-@media (min-width: 1200px) {
-  .col-md-6.col-sm-6 {
-    flex: 1 1 calc(33.333% - 15px);
-  }
-}
-
-/* على الموبايل 1 كارت في الصف */
 @media (max-width: 767px) {
   .col-md-6.col-sm-6 {
-    flex: 1 1 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }
 
-/* ================= Friend Card ================= */
+/* ===== Card ===== */
 .friend-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%; /* يحافظ على الارتفاع الأصلي */
+  position: relative;
+  min-height: 220px; /* ارتفاع الكارت مضغوط */
   background: #fff;
-  border-radius: 10px;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  transition: transform 0.2s;
+  width: 100%; /* الكارت ياخد كامل العمود */
 }
 
-.friend-card .card-info {
-  flex: 1;
+.friend-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Cover */
+.friend-card .cover {
+  height: 100px; /* ارتفاع الغطاء مضغوط */
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Body */
+.card-body {
   display: flex;
   flex-direction: column;
+  padding: 12px;
+}
+
+/* Profile side */
+.profile-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Profile image */
+.profile-photo-lg {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  margin-top: -40px;
+  background: #fff;
+}
+
+/* Name */
+.profile-side h5 {
+  margin: 6px 0 4px;
+  font-size: 14px;
+}
+
+/* Bio */
+.profile-side .bio {
+  font-size: 12.5px;
+  color: #777;
+  line-height: 1.4;
+  max-height: 36px;
+  overflow: hidden;
+  margin: 0 0 6px;
+}
+
+/* Actions wrapper: زرار على الشمال و My Friend badge أقصى اليمين */
+.actions-wrapper {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Left actions */
+.actions-left {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Right actions (badge) */
+.actions-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* My Friend badge */
+.friend-badge {
+  background: #5cb85c;
+  color: #fff;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
 }

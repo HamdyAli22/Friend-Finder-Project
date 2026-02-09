@@ -40,6 +40,7 @@ export class AuthService {
             localStorage.setItem('roles', response.roles);
             localStorage.setItem('userId', response.userId);
             localStorage.setItem('username', response.username);
+            localStorage.setItem('profileImageUrl', response.profileImageUrl);
             this.getProfile().subscribe();
             this.userLoggedIn.emit(email);
           }
@@ -69,9 +70,11 @@ export class AuthService {
       .get<Account>(this.baseUrl + 'user-profile', { params })
       .pipe(
         tap(profile => {
-          this.profileImageSubject.next(profile.profileImageUrl);
-          this.coverImageSubject.next(profile.coverImageUrl);
-          this.usernameSubject.next(profile.username);
+          if (!userId) {
+            this.profileImageSubject.next(profile.profileImageUrl);
+            this.coverImageSubject.next(profile.coverImageUrl);
+            this.usernameSubject.next(profile.username);
+          }
         })
       );
   }

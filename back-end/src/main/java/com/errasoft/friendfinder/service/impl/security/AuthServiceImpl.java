@@ -64,6 +64,7 @@ public class AuthServiceImpl implements AuthService {
         authResponseVm.setUsername(accountDto.getUsername());
         authResponseVm.setEmail(accountDto.getEmail());
         authResponseVm.setToken(tokenHandler.createToken(accountDto));
+        authResponseVm.setProfileImageUrl(accountDto.getProfileImageUrl());
         authResponseVm.setUserRoles(getAccountRoles(accountDto));
         authResponseVm.setUserId(accountDto.getId());
 
@@ -82,6 +83,7 @@ public class AuthServiceImpl implements AuthService {
         authResponseVm.setUsername(savedAccountDto.getUsername());
         authResponseVm.setEmail(savedAccountDto.getEmail());
         authResponseVm.setToken(tokenHandler.createToken(savedAccountDto));
+        authResponseVm.setProfileImageUrl(accountDto.getProfileImageUrl());
         authResponseVm.setUserRoles(getAccountRoles(savedAccountDto));
         authResponseVm.setUserId(savedAccountDto.getId());
 

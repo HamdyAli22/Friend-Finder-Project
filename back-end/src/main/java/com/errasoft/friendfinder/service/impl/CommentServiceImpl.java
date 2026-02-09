@@ -76,7 +76,15 @@ public class CommentServiceImpl implements CommentService {
 
         Long userId = authService.getCurrentUserId();
 
-        if (comment.getOwner() == null || !userId.equals(comment.getOwner().getId())) {
+        Long commentOwnerId = comment.getOwner() != null
+                ? comment.getOwner().getId()
+                : null;
+
+        Long postOwnerId = comment.getPost() != null && comment.getPost().getOwner() != null
+                ? comment.getPost().getOwner().getId()
+                : null;
+
+        if (!userId.equals(commentOwnerId) && !userId.equals(postOwnerId)) {
             throw new RuntimeException("unauthorized.action");
         }
 

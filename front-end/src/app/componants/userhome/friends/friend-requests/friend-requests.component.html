@@ -68,13 +68,9 @@
                     </div>
 
                     <h5>
-                      <a
-                        [routerLink]="['/timeline']"
-                        [queryParams]="{ userId: request.id }"
-                        class="profile-link"
-                      >
-                        {{ request.username }}
-                      </a>
+                      <span class="username-text">
+                            {{ request.username }}
+                      </span>
                     </h5>
                   </div>
                 </div>
@@ -113,7 +109,14 @@
           [src]="req.profileImageUrl ? serverBase + req.profileImageUrl : 'assets/images/users/default-avatar-icon.jpg'"
           alt="user"
           class="profile-photo-sm">
-        <span>{{ req.username }}</span>
+<!--        <span>{{ req.username }}</span>-->
+        <a
+          [routerLink]="['/timeline']"
+          [queryParams]="{ userId: req.id }"
+          class="profile-link"
+        >
+          {{ req.username }}
+        </a>
       </div>
 
       <button

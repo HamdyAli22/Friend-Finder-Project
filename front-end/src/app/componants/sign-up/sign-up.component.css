@@ -162,8 +162,14 @@ small a.text-primary {
   top: -1px;
 }
 
+.custom-alert span {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
 .custom-alert strong {
-  font-size: 14px;
+  font-size: 16px;
   color: #004085;
 }
 

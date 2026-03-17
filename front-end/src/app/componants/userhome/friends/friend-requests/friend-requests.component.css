@@ -131,3 +131,8 @@
   text-overflow: ellipsis;
   max-width: 140px;
 }
+
+.username-text {
+  color: #337ab7;
+  cursor: default;
+}
